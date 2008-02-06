@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name="portal_workflow" meta_type="Plone Workflow Tool">
+	<!-- object name="prediction_workflow" meta_type="Workflow" / -->
+	<object name="simple_prediction_workflow" meta_type="Workflow" />
+ <bindings>  
+  <type type_id="Generic Prediction">
+      <bound-workflow workflow_id="simple_prediction_workflow"/>
+  </type>
+ </bindings>
+</object>

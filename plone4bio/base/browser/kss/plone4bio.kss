@@ -1,0 +1,90 @@
+/*
+.submitFormPredictions:click {
+    evt-click-preventdefault: true;
+    evt-click-allowbubbling: false;
+    action-server: submitformazax;
+    submitformazax-data: currentForm();
+}
+*/
+
+/*
+TEMPORANEAMENTE DISABILITATO DRAG & DROP
+
+#predictions-shortimage:load {
+    action-client: plone-initDragAndDrop;
+    plone-initDragAndDrop-table: '#predictions-shortimage';
+}
+*/
+
+#predictions-summary:load {
+    action-client: plone-initDragAndDrop;
+    plone-initDragAndDrop-table: '#predictions-summary';
+}
+
+tr.togglerow:click {
+    action-client: toggleClass;
+    toggleClass-classname: 'hiderow';
+}
+
+.bdclose:click {
+    evt-click-preventdefault: true;
+    # action-client: toggleClass;
+    # toggleClass-classname: 'bdclose';
+    action-server: detailsazax;
+    detailsazax-id: nodeAttr("name",true);
+    detailsazax-details: nodeAttr("class",true);
+}
+
+/* div.bdpredictionMasterSelect input[type="checkbox"]:change { */
+div.bdpredictionMasterSelect input:change {
+    action-client: toggleClass;
+    toggleClass-kssSelector: css("div.bdpredictionMasterSelect");
+    toggleClass-classname: "brown";
+}
+
+/*
+div.bdpredictionMasterSelect input:change {
+    action-server: bdmkssms;
+    bdmkssms-masterid: nodeAttr("id");
+    bdmkssms-value: currentFormVar();
+}
+
+div.bdpredictionMasterSelect input:load {
+    action-server: bdmkssms;
+    bdmkssms-masterid: nodeAttr("id");
+    bdmkssms-value: currentFormVar();
+}
+*/
+
+.runPrediction:click {
+    evt-click-preventdefault: true;
+    action-server: runPrediction;
+    runPrediction-predictionId: currentFormVar(prediction);
+}
+
+.killPrediction:click {
+    evt-click-preventdefault: true;
+    action-server: submitazax;
+    submitazax-id: currentFormVar(id);
+    submitazax-action: "kill";
+}
+.queued:timeout {
+    evt-timeout-delay: 5000;
+    evt-timeout-repeat: "false";
+    action-server: submitazax;
+    submitazax-id: nodeAttr("id");
+    submitazax-action: "refresh";
+}
+.running:timeout {
+    evt-timeout-delay: 5000;
+    evt-timeout-repeat: "false";
+    action-server: submitazax;
+    submitazax-id: nodeAttr("id");
+    submitazax-action: "refresh";
+}
+input.control:click {
+    evt-click-preventdefault: true;
+    action-server: shortimageazax;
+    shortimageazax-index: currentFormVar();
+    shortimageazax-foo: "bar";
+}

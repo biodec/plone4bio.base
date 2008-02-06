@@ -1,0 +1,37 @@
+<div
+	    xmlns:tal="http://xml.zope.org/namespaces/tal"
+	    xmlns:metal="http://xml.zope.org/namespaces/metal"
+	    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+	    >
+	<tal:block
+			    tal:define="
+			    crop_size_0 python:80;
+			    crop_start_1 here/REQUEST/start|crop_size_0;
+		        crop_max python:len(here.sequence);
+		        predictions python:here.getFolderContents(full_objects =True)    
+			   ">
+			         <table id="predictions-shortimage" class="listing shortimage">
+			            <thead><tr><th> </th></tr></thead>
+				  		<tbody>
+				  			<tr>
+				  				<td>
+							  		<img tal:attributes="src string:${here/absolute_url}/png" />
+							  	</td>
+							</tr>
+							<!--
+			          		<tal:prediction repeat="prediction predictions">
+			           			<tr tal:attributes="id string:tr2_${prediction/getId}">
+				    				<td>
+				    				
+			            				<img tal:attributes="src string:${prediction/absolute_url}/png" />
+				    				</td>
+				    			</tr>
+			          		</tal:prediction>
+			          		-->
+				  		</tbody>
+				  	</table>
+				  	<!--
+						<div><img src="++resource++plone4bio.images/legenda.gif" alt="legenda" /></div>
+					-->
+	</tal:block>
+</div>

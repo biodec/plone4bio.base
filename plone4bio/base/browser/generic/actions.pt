@@ -1,0 +1,54 @@
+<div
+	    xmlns="http://www.w3.org/1999/xhtml"
+	    xmlns:tal="http://xml.zope.org/namespaces/tal"
+	    xmlns:metal="http://xml.zope.org/namespaces/metal"
+	    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+	    class="prediction-actions">
+	<tal:block
+			tal:define="
+			canEdit   python:0;
+			canDelete python:0;
+			canSubmit python:user.has_permission('plone4bio: Submit prediction', here);
+			canKill   python:0;
+			">
+		<form tal:condition="python:canSubmit"
+				tal:attributes="action string:${here/absolute_url}/run;
+                id string:run_${here/getId};">
+			<input type="hidden" name="prediction" tal:attributes="value here/getId"/>
+			<input class="standalone runPrediction" 
+                          type="submit"
+                          i18n:attributes="value"
+                          value="Run"
+                          />
+        </form>
+        
+        <form tal:condition="python:canKill"
+				tal:attributes="action string:${here/absolute_url}/kill">
+			<input class="standalone killPrediction"
+                          type="submit"
+                          i18n:attributes="value"
+                          value="Kill"
+                          />
+      </form>
+
+      <form tal:condition="python:canEdit"
+        tal:attributes="action string:${here/absolute_url}/base_edit">
+        <input type="hidden" name="id" tal:attributes="value here/getId"/>
+        <input class="standalone"
+                          type="submit"
+                          i18n:attributes="value"
+                          value="Edit"
+                          />
+      </form>
+      <form tal:condition="python:canDelete"
+        tal:attributes="action string:${here/absolute_url}/bdprediction_delete_confirm">
+        <input type="hidden" name="id" tal:attributes="value here/getId"/>
+        <input class="destructive"
+                          type="submit"
+                          i18n:attributes="value"
+                          value="Delete"
+                        />
+      </form>
+
+	</tal:block>
+</div>

@@ -1,0 +1,23 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="plone4bio">
+    
+    <adapter factory=".prediction.predictionPNG" />
+    <adapter factory=".sequence.sequencePNG" />
+    
+    <browser:page
+    	for="plone4bio.base.interfaces.IGenericPrediction"
+    	name="png"
+    	class=".prediction.PNGView"
+    	permission="zope2.View"
+    	/>
+
+    <browser:page
+    	for="plone4bio.base.interfaces.ISequence"
+    	name="png"
+    	class=".sequence.PNGView"
+    	permission="zope2.View"
+    	/>
+    	
+ </configure>

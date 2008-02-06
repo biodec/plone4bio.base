@@ -1,0 +1,307 @@
+/* <dtml-with base_properties> */
+
+span.T { color: #f7d565; }
+span.I { color: #61b5ce; }
+span.O { color: #61b5ce; }
+span.G { color: #61b5ce; }
+span.M { color: #777777; }
+span.U { color: #61b5ce; }
+span.S { color: #f7d565; }
+span.C { color: #61b5ce; }
+span.E { color: #f7d565; }
+span.H { color: #777777; }
+
+.even { background-color: #eef3f5; }
+.odd { background-color: transparent; }
+
+.shortimage td { padding: 0em 0em; }
+
+.sequence-fw { font-family: "Courier New", Courier, monospace; }
+
+#prediction-summary { vertical-align: top; }
+
+input.newSequenceButton {
+  margin-bottom: 1px ! important;
+  font-size: 85%;
+  background: White url(search_icon.gif) 2px 1px no-repeat;
+  cursor: pointer;
+  padding: 1px 1px 1px 15px;
+  text-transform: lowercase;
+}
+
+/* Tracker front page */
+
+.issue-quick-search-box {
+    width: 30%; 
+    float: left; 
+    padding: 0 1em 1em 0;
+}
+
+#issue-quicksearch-box {
+    display: block;
+    float: right;
+}
+
+#issue-search-link {
+    display: block;
+    background: &dtml-backgroundColor; url(&dtml-portal_url;/search_icon.gif) 2px 1px no-repeat;
+    padding: 1px 1px 1px 18px;
+}
+
+/* Search table */
+
+.issue-search-results {
+    width: 100%;
+}
+
+.issue-search-rss {
+    float: right;
+    position: relative;
+    top: 5px;
+}
+
+/* Issue display */
+
+.return-to-search {
+    display: block;
+    background: transparent url(&dtml-portal_url;/arrowUp.gif) 4px 5px no-repeat;
+    padding: 1px 0px 5px 16px;
+    font-size: &dtml-fontSmallSize;;
+    text-decoration: none;
+
+}
+
+.modification-info {
+    margin: 0 0 0.5em 0;
+    color: &dtml-discreetColor;;
+    font-size: &dtml-fontSmallSize;;
+
+}
+
+.issue-info-box {
+    float: right;
+}
+.issue-info-box th {
+    text-align: right;
+}
+.issue-info-box td {
+    text-align: left;
+}
+.unassigned-field {
+    text-align: left;
+}
+
+.steps-to-reproduce dd {
+    font-family: Monaco, "Courier New", Courier, monospace;
+    font-size: 100%;
+    color: &dtml-fontColor;;
+    padding: 0 0.1em;;
+    margin: 0.5em 0 0 1em;
+}
+
+.steps-to-reproduce ol {
+    margin: 0.5em 0 1em 3em;
+    line-height: 1em;
+}
+
+.steps-to-reproduce li {
+    margin: 0;
+    line-height: 1em;
+}
+
+
+.issue-attachment-label {
+    margin-bottom: 0.5em;
+}
+
+.issue-tags {
+    margin: 0 0 0.5em 0;
+}
+
+.issue-tags-label {
+    font-weight: bold;
+}
+
+ul.issue-tags-tags {
+    display: inline;
+    margin-left: 0;
+}
+
+ul.issue-tags-tags li {
+    display: inline;
+}
+
+ul.issue-tags-tags a {
+
+}
+
+
+/* Different response types */
+
+.response-clarification {
+    margin: 1em 0;
+    padding: 0.5em;
+    border: &dtml-borderWidth; &dtml-borderStyleAnnotations; &dtml-globalBorderColor;;
+    clear: both;
+}
+
+.response-reply {
+    margin: 1em 0;
+    padding: 0.5em;
+    border: &dtml-borderWidth; &dtml-borderStyleAnnotations; &dtml-notifyBorderColor;;
+    clear: both;
+}
+
+.response-additional {
+    margin: 1em 0;
+    padding: 0.5em;
+    border: &dtml-borderWidth; &dtml-borderStyleAnnotations; &dtml-contentViewBorderColor;;
+    clear: both;    
+}
+
+/* Response details */
+
+
+.issueChange {
+    text-transform: lowercase;
+}
+
+/* Response actions box */
+
+/* Issue states */
+
+.issue-unconfirmed {
+    color: purple;
+}
+
+.issue-open {
+    color: red;
+}
+
+.issue-in-progress {
+    color: &dtml-notifyBorderColor;;
+}
+
+.issue-postponed .issue-rejected {
+    color: &dtml-discreetColor;;
+}
+
+.issue-resolved {
+    color: black;
+}
+
+.issue-closed {
+    color: &dtml-linkColor;;
+}
+
+/* </dtml-with> */
+
+/* <dtml-with base_properties> */
+
+tr.T { background-color: #f7d565; }
+tr.I { background-color: #8888FF; }
+tr.O { background-color: #0000FF; }
+tr.G { background-color: #8888FF; }
+tr.M { background-color: #8888FF; }
+tr.U { background-color: #C3C3C3; }
+tr.S { background-color: #FF9900; }
+tr.C { background-color: #8888FF; }
+tr.E { background-color: #f7d565; }
+tr.H { background-color: #ff3e3e; }
+
+.nobr { white-space: nowrap; }
+.brown { background-color: #ff0000; }
+
+table.regions {
+	font-size: 75%;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+	border-collapse: collapse;
+	border: 1;
+}
+
+/*
+img.i { border: 1px solid #ccc; }
+img.i:hover img{ border: 1px solid navy; }
+*/
+img.o { display: none; }
+
+.dbentries { font-size: 75%; margin-left: 15px; }
+.sequence-fw { font-family: "Courier New", Courier, monospace; overflow: auto}
+.prediction-details {
+    font-family: Monaco, "Courier New", Courier, monospace;
+    font-size: 100%;
+    color: &dtml-fontColor;;
+}
+
+.prediction-info {
+    color: &dtml-discreetColor;;
+    font-size: &dtml-fontSmallSize;;
+    font-weight: normal;
+    margin-bottom: 0.5em;
+}
+
+.prediction-actions {
+  float: right;
+  clear: right;
+}
+
+.prediction-actions form {
+    display: inline;
+}
+
+div.predictors-container{width:100%;overflow:auto}
+div.predictors-item{float:left;display:inline;
+    border: 1px solid #CCC;margin:5px}
+div.predictors-form{border: 1px solid #8cacbb}
+// div.predictors-images{overflow: auto}
+
+dl.bdcollapsible {
+border: 1px solid #8cacbb !important;
+margin: 1em 0 0 0;
+padding: 0;
+}
+dl.bdcollapsible dt.bdcollapsibleHeader {
+display: block;
+float: left;
+background: White;
+line-height: 1.2em;
+vertical-align: middle;
+position: relative;
+top: -0.6em;
+width: auto;
+margin: 0 0 -0.6em 1em;
+padding: 0 0.5em;
+}
+dl.bdcollapsible dd.bdcollapsibleContent {
+margin: 0;
+padding: 0 1em;
+clear: left;
+}
+dl.bdcollapsible dd.bdcollapsibleContent > dl {
+margin: 0;
+padding: 0;
+}
+
+/*
+span.bdopen a.bdclose {
+	text-decoration: none;
+	background-color: transparent;
+	background-image: url(bdclose.gif);
+	background-repeat: no-repeat;
+	background-x-position: left;
+	background-y-position: center;
+	padding-left: 12px;
+}
+span.bdopen a {
+	text-decoration: none;
+	background-color: transparent;
+	background-image: url(bdopen.gif);
+	background-repeat: no-repeat;
+	background-x-position: left;
+	background-y-position: center;
+	padding-left: 12px;
+}
+*/
+
+/* </dtml-with> */

@@ -1,0 +1,16 @@
+===========================
+plone4bio.base Changes
+===========================
+
+Features
+--------
+
+* Added the new object `predictor'.
+
+* TODO: add a fully working predictor.
+
+
+plone4bio.base  (2008-01-31)
+=================================
+
+* First release (Mauro Amico)

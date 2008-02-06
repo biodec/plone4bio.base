@@ -1,0 +1,4 @@
+
+plone4bio.base is a software to predict properties of biosequences,
+meant to be used in a bioinformatics content management system.
+plone4bio.base is Copyright (C) 2008 BioDec S.r.l.

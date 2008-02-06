@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<object name="Sequence" 
+   meta_type="Factory-based Type Information"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+   i18n:domain="plone4bio">
+ <property name="title" i18n:translate="">Plone4Bio Sequence</property>
+ <property name="description">Plone4Bio Sequence</property>
+ <property name="content_icon">++resource++plone4bio.images/sequence_icon.png</property>
+ <property name="content_meta_type">Sequence</property>
+ <property name="product"></property>
+ <property name="factory">plone4bio.base.Sequence</property>
+ <property name="immediate_view">@@view</property>
+ <property name="global_allow">True</property>
+ <property name="filter_content_types">True</property>
+ <property name="allowed_content_types">
+  <element value="Generic Prediction"/>
+  <element value="Pscoils Prediction"/>
+ </property>
+ <property name="allow_discussion">True</property>
+ <alias from="(Default)" to="@@view"/>
+ <alias from="view" to="@@view"/>
+ <action title="View" action_id="view" category="object" condition_expr=""
+    url_expr="string:${object_url}" visible="True">
+  <permission value="View"/>
+ </action> 
+</object>

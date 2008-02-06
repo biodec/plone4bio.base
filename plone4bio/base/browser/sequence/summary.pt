@@ -1,0 +1,22 @@
+<div
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+
+ 			<table class="vertical listing">
+            	<tr>
+            		<th i18n:translate="bdm_label_sequence">Sequence</th>
+	               	<td class="sequence-fw"><div id="sequence-fw" tal:content="python:here.getSequenceTxt(wordwrap=10)" /></td>
+             	</tr>
+             	<tr>
+               		<th i18n:translate="bdm_label_submitted_by">Submitted by</th>
+               		<td tal:content="python:here.Creator()" />
+             	</tr>
+             	<tr>
+               		<th i18n:translate="bdm_label_submitted_on">Submitted on</th>
+               		<td tal:content="python:here.toLocalizedTime(here.created(),long_format=True)" />
+             	</tr>
+            </table>
+
+</div>
