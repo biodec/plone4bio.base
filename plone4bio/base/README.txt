@@ -20,12 +20,38 @@ application and visualize all the results together.  A predictor can be
 a pure Python program or another application wrapped to be usable by the
 interface defined in the *plone4bio.base* package.
 
+Creating a sequence
+-------------------
+
+Let us create some sequences.
+
+	>>> self.setRoles(('Manager',))
+	>>> self.portal.invokeFactory('Sequence','ferritin')
+	'ferritin'
+	>>> ferritin = getattr(self.portal,'ferritin')
+	
+The Sequence objects are simple Zope 3-like persistent content items.. so we 
+will configure the project using theirs properties.
+
+	>>> ferritin.title = u"Ferritin"
+	>>> ferritin.descritpion = u"Ferritin sequence"
+	>>> ferritin.sequence = u"CMSPDQWDKEAAQYDAHAQEFEKKSHRNNGTPEADQYRHMASQYQAMAQKLKAIANQLKKGSETCR"
+	
+Now we can read some sequence properties:
+
+	>>> ferritin.getSeqObj()
+	....
+	>>> ferritin.getPredictions()
+	[]
+	>>> ferritin.havePrediction("predictor")
+	False
+	
 Developer Notes
 ---------------
 
 The plone4bio* plone products are mainly developed on Debian Stable, so
 they are mainly tested in that environment. Usually there should be no
-problem in installing the products in GNU/Linux Zope/Plone environments.
+problem in installing the products in other Zope/Plone environments.
 
 Maintainer
 ----------
