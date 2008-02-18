@@ -27,6 +27,10 @@ The plone4bio* plone products are mainly developed on Debian Stable, so
 they are mainly tested in that environment. Usually there should be no
 problem in installing the products in GNU/Linux Zope/Plone environments.
 
+This product is produced independently from the product Plone, and carries no
+guarantee from the Plone Foundation about quality, suitability or anything
+else. The supplier of this product assumes all responsibility for it.
+
 Maintainer
 ----------
 
