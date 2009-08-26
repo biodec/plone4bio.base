@@ -61,7 +61,6 @@ class PredictorTool(UniqueObject, Folder):
 
         """ Return a sequence of mappings for predictors
         """
-        import pdb; pdb.set_trace()
         return self.values()
 
     def run(self, name, seqr, context=None, **kwargs):
