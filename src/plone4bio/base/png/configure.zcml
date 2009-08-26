@@ -1,0 +1,43 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="plone4bio">
+    
+    <adapter factory=".seqrecord.seqrecordPNG" />
+    <adapter factory=".seqrecord.seqrecordImagemap" />
+
+    <browser:page
+    	for="..interfaces.ISeqRecord"
+    	name="features.png"
+    	class=".seqrecord.PNGFeaturesView"
+    	permission="zope2.View"
+    	/>
+
+    <browser:view
+        for="..interfaces.ISeqRecord"
+        name="imagemap"
+    	class=".seqrecord.ImagemapFeaturesView"
+        permission="zope2.View"
+        />
+
+    <browser:resource
+        name="plone4bio-imagemap.js"
+        file="javascript/imagemap.js"
+        />
+
+    <!-- cluetip -->
+    <browser:resource
+        name="jquery.cluetip.js"
+        file="cluetip/cluetip/jquery.cluetip.js"
+        />
+    <browser:resource
+        name="jquery.cluetip.css"
+        file="cluetip/cluetip/jquery.cluetip.css"
+        />
+    <browser:resource
+        name="jquery.hoverIntent.js"
+        file="cluetip/hoverIntent/jquery.hoverIntent.minified.js"
+        />
+    <!-- cluetip -->
+
+ </configure>

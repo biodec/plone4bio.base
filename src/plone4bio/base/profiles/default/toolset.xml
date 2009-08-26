@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<tool-setup>
+ <required tool_id="plone4bio_predictors"
+           class="plone4bio.base.tool.PredictorTool"/>
+</tool-setup>
+

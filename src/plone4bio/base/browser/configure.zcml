@@ -1,0 +1,135 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser">
+
+<!--
+	<include package="plone4bio" file="permissions.zcml" />
+-->
+
+<!-- new -->
+
+    <browser:page
+		for="..interfaces.ISeqRecord"
+		name="view"
+		class=".seqrecord.SeqRecordView"
+		template="templates/seqrecord.pt"
+		permission="zope2.View"
+		/>
+
+    <browser:view
+		for="..interfaces.ISeqRecord"
+		name="annotations"
+		class=".seqrecord.SeqRecordAnnotationsView"
+		permission="zope2.View"
+		/>
+
+    <browser:view
+		for="..interfaces.ISeqRecord"
+		name="features"
+		class=".seqrecord.SeqRecordFeaturesView"
+		permission="zope2.View"
+		/>
+
+    <browser:view
+		for="..interfaces.ISeqRecord"
+		name="dbxrefs"
+		class=".seqrecord.SeqRecordDbxrefsView"
+		permission="zope2.View"
+		/>
+
+    <browser:page
+		for="..interfaces.ISeqRecord"
+	        name="edit"
+		class=".seqrecord.SeqRecordEditForm"
+		permission="cmf.ModifyPortalContent"
+		/>
+
+    <browser:page
+		for="..interfaces.ISeqRecord"
+		name="predictors"
+		class=".seqrecord.SeqRecordPredictors"
+		template="templates/predictors.pt"
+		permission="zope2.View"
+		/>
+
+    <!-- TODO: use custom permission -->
+    <browser:page
+		for="..interfaces.ISeqRecord"
+		name="runPredictor"
+		class=".seqrecord.SeqRecordPredictors"
+		permission="cmf.ModifyPortalContent"
+                attribute="runPredictor"
+		/>
+
+	<!--  TODO:adapter -->
+    <browser:page
+		for="..interfaces.ISeqRecord"
+	    name="gff"
+		class=".seqrecord.SeqRecord2GFF"
+		permission="zope2.View"
+		/>
+
+	<!--  TODO:adapter -->
+     <browser:page
+		for="..interfaces.ISeqRecord"
+	    name="fasta"
+		class=".seqrecord.SeqRecord2Fasta"
+		permission="zope2.View"
+		/>
+
+     <browser:page
+        name="load"
+        for="..interfaces.ISeqRecordContainer"
+        template="templates/upload.pt"
+        class=".container.LoadForm"
+        permission="cmf.ModifyPortalContent"
+        />
+
+     <browser:page
+        for="zope.app.container.interfaces.IAdding"
+        name="plone4bio.base.SeqRecord"
+        class=".seqrecord.SeqRecordAddForm"
+        permission="cmf.AddPortalContent"
+        />
+
+  <browser:page
+      for="*"
+      name="display_upload"
+      class=".container.DisplayLoadView"
+      attribute="can_upload"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      for="*"
+      name="upload_url"
+      class=".container.DisplayLoadView"
+      attribute="upload_url"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      for="*"
+      name="can_predict"
+      class=".predictor.PredictorsView"
+      attribute="can_predict"
+      permission="zope.Public"
+      />
+
+    <browser:resourceDirectory
+        name="plone4bio.images"
+        directory="images"
+        />
+
+    <browser:resource
+      name="plone4bio.css"
+      file="css/plone4bio.css"
+      permission="zope2.View"
+      />
+
+    <browser:resource
+      name="plone4bio.kss"
+      file="kss/plone4bio.kss"
+      permission="zope2.View"
+      />
+      
+</configure>

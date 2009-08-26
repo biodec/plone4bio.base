@@ -1,0 +1,323 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/@@standard_macros/page"
+      i18n:domain="plone4bio">
+<head>
+</head>
+
+<body>
+<div metal:fill-slot="body"  tal:define="viewfeatures   python:context.features();
+                                          viewdbxrefs     python:context.dbxrefs();
+                                          viewreferences python:context.annotations().has_key('references')">
+  
+    <h1 class="documentFirstHeading" tal:content="context/title" />
+
+
+    <table style="width:100%" >
+    <tr style="vertical-align:top;">
+    <td style="align:left;">
+    <table class="listing vertical" summary="Main" style="width:100%">
+        <tr>
+            <th i18n:translate="label_seqid">Accession</th>
+            <td tal:content="context/Accession" />
+        </tr>
+	<tr>
+            <th i18n:translate="label_name">Name</th>
+            <td tal:content="context/Name" />
+        </tr>
+	<tr>
+            <th i18n:translate="label_identifier">Identifier</th>
+            <td tal:content="context/Id" />
+        </tr>
+        <tr>
+            <th i18n:translate="label_description">Description</th>
+	    <td> 
+	    <ul>
+	      <tal:description tal:define="description context/Description;
+					   descriptionlist python:description.split('###');"
+			       tal:repeat="desc descriptionlist">
+		   		<li><span tal:content="desc" /></li>
+	      </tal:description>
+	    </ul>
+            </td>
+        </tr>
+    </table>
+    </td>
+    <td style="align:right;">
+    <table class="listing vertical"  summary="DBInfo" style="width:100%">
+        <tr>
+            <th i18n:translate="label_biodatabase">Biodatabase</th>
+            <td tal:define="biodatabase context/biodatabase" tal:content="biodatabase/name" />
+        </tr>
+    </table>
+    </td>
+    </tr>
+    </table>
+    <dl class="enableFormTabbing">
+	<dt id="fieldsetlegend-annotations">Annotations</dt>
+        <dd id="fieldset-annotations">
+	     <tal:annotations tal:define="annotations context/annotations;
+					  keys python:annotations.keys();
+					  keystoignore python:[x for x in keys if x[-7:] == 'protein' ];
+					  keys python:list(set(keys).difference(['references','dbxref','dates','gi','id']+keystoignore));
+					  keysgroups python:[x.split('_')[0] for x in keys];
+					  keysgroups python:list(set(keysgroups));
+					  sorting python:keysgroups.sort()"
+			        tal:repeat="keygroup keysgroups">
+                                <dl tal:attributes="id string:group-${keygroup}" class="collapsible inline collapsedOnLoad">
+                                <dt class="collapsibleHeader" tal:content="keygroup">keygroup</dt>
+                                <dd class="collapsibleContent">
+                                <table class="listing" summary="Annotations" style="width:100%">
+                                        <tr><th colspan="2" tal:content="keygroup"  style="text-align:left" style="width:100%"/></tr>
+					<tal:annotgroup  tal:define="subannots python:[key for key in keys if key.startswith(keygroup)];
+								     sorting python:subannots.sort();"
+						         tal:repeat="subannot subannots">
+					<tr   	style="width:100%"
+						tal:define="oddrow repeat/subannot/odd;
+							    annotdatas python:annotations[subannot];"
+                                                tal:attributes="class python:(oddrow and 'even' or 'odd');">
+						<td tal:content="subannot" style="width:200px; max-width:200px"/>
+						<td
+						    tal:condition="python:isinstance(annotdatas,list) and annotdatas">
+						    	<ul>
+							    <tal:annotdata tal:define="annotlist python:[];
+										       annotlistspace python:[];
+										       genlist python:[annotlist.extend(x.split('###')) for x in annotdatas];
+										       insertspace python:[annotlistspace.append(', '.join(x.split(','))) for x in annotlist]"
+									   tal:repeat="annotdata annotlistspace">
+								<li><span tal:content="annotdata" /></li>
+							    </tal:annotdata>
+						    	</ul>
+						</td>
+						<td 
+                                                    tal:condition="python:isinstance(annotdatas,str) and annotdatas" >
+                                                        <ul>
+							    <tal:annotdata  tal:define="annotlistspace python:[];
+											annotdatas python:annotdatas.split('###');
+											insertspace python:[annotlistspace.append(', '.join(x.split(','))) for x in annotdatas]"
+									    tal:repeat="annotdata annotlistspace">
+                                                                <li><span tal:content="annotdata" /></li>
+							    </tal:annotdata>
+                                                        </ul>
+                                                </td>
+					</tr>
+					</tal:annotgroup>					
+				</table>
+				</dd>
+                  		</dl>
+
+	     </tal:annotations>
+ 
+        </dd>
+        <dt id="fieldsetlegend-features" tal:condition="viewfeatures">Features</dt>
+        <dd id="fieldset-features" tal:condition="python:viewfeatures"
+				   tal:define="featuredict context/features_dict">
+	     <dl>
+	     <dd> 
+             <div tal:define="biodatabase context/biodatabase" align="center" >
+                 <!-- img src="" tal:attributes="src string:/cgi-bin/graphics?biodatabase=${biodatabase/name}&amp;accession=${context/Accession}" / -->
+                 <img src="" tal:attributes="src string:${here/absolute_url}/features.png" />
+             </div>
+	     </dd>
+	     </dl> 
+	     <tal:features tal:repeat="featuretype featuredict">
+	     <dl tal:attributes="id string:group-${featuretype}" class="collapsible inline collapsedOnLoad">
+             <dt class="collapsibleHeader" tal:content="featuretype" >Feature</dt>
+             <dd class="collapsibleContent" >
+                  <div  tal:define="featureaccessiondict python:featuredict[featuretype];"
+			  class="listing" summary="Features" style="width:100%">
+			  <tal:featuregroup tal:repeat="featureaccession featureaccessiondict">
+				<table class="listing" summary="FeaturesAccession" style="width:100%"
+						    tal:define="features python:featureaccessiondict[featureaccession]">
+					<thead>
+                                            <tr><th colspan="3" style="text-align:left" style="width:100%"><b tal:content="featureaccession"/></th></tr>
+					    <tr>
+                          			<th class="nosort">type</th>
+                          			<th class="nosort">location</th>
+                          			<th class="nosort">qualifiers</th>
+                      			    </tr>
+					</thead>
+					<tbody>
+					    <tal:features tal:repeat="feature features">
+					        <tr
+                               				tal:define="oddrow repeat/feature/odd;
+								    start python:'Start: ' + str(feature.location.start.position);
+                                                                    end python:'End: ' + str(feature.location.end.position);"
+                               				tal:attributes="class python:(oddrow and 'even' or 'odd')">
+							<td><b tal:content="feature/type" /></td>
+                               				<td tal:content="python:start + ' : ' + end" />
+                               				<td>
+                                   				<ul>
+                                       				<tal:qualifiers tal:repeat="key feature/qualifiers/keys">
+                                            				<li tal:condition="python:isinstance(feature.qualifiers[key],list)">
+										<b tal:content="key" />: <span tal:content="python:feature.qualifiers[key][0]" />
+									</li>
+									<li tal:condition="python:isinstance(feature.qualifiers[key],str)">
+                                                                                <b tal:content="key" />: <span tal:content="python:feature.qualifiers[key]" />
+                                                                        </li>
+                                       				</tal:qualifiers>
+                                   				</ul>
+                               				</td>
+                           			</tr>
+						</tal:features> 
+						</tbody>
+				</table>
+			  </tal:featuregroup>
+                    </div>
+              </dd>
+              </dl>
+	      </tal:features>
+    	</dd>
+        <dt id="fieldsetlegend-dbxrefs" tal:condition="viewdbxrefs">Dbxrefs</dt>
+        <dd id="fieldset-dbxrefs" tal:condition="viewdbxrefs">
+	     <table class="listing" summary="DB Cross References" style="width:100%">
+		<thead>
+		<tal:dbxref tal:define="dbxref context/dbxrefs" 
+			    tal:condition="python:dbxref != []">
+                      <tr>
+                          <th class="sort">Data Source</th>
+                          <th class="sort">Accession</th>
+                      </tr>
+		</tal:dbxref>
+                </thead>
+		<tbody>
+		<tal:dbxref tal:repeat="dbxref context/dbxrefs">
+			<tal:dbxrefdef    tal:define="oddrow repeat/dbxref/odd;
+                                                      dbxreftuple python:dbxref.split(':');
+                                                      dbxrefdb python:dbxreftuple[0];
+                                                      dbxrefacc python:':'.join(dbxreftuple[1:]);
+						      url python:context.getdbxref_url(dbxrefdb,dbxrefacc);
+                                                      ">
+		    	     <tr    tal:condition="python:url"
+                      		    tal:attributes="class python:(oddrow and 'even' or 'odd')"> 
+			    		<td tal:content="dbxrefdb" />	
+			    		<td ><a tal:attributes="href url"  tal:content="dbxrefacc"/></td>
+			     </tr>
+			     <tr    tal:condition="python: not url"
+                                    tal:attributes="class python:(oddrow and 'even' or 'odd')">
+                                        <td tal:content="dbxrefdb" />
+                                        <td tal:content="dbxrefacc" />
+                             </tr>
+                        </tal:dbxrefdef>
+                </tal:dbxref>
+		</tbody> 	
+	     </table>
+    	</dd>
+	<dt id="fieldsetlegend-sequence">Sequences</dt>
+        <dd id="fieldset-sequence">
+	<table class="listing" summary="Sequence"
+		tal:define="seqstatistics context/SeqStatistics;
+			    statistickeys python:seqstatistics.keys();">
+	<tr><th colspan="2" tal:content="string:Statistics"/><th tal:content="string:Main Sequence"/></tr>
+	<tr tal:attributes="class python:'odd';">
+			<td tal:content="string:Length"></td>
+			<td tal:content="python:seqstatistics['Length']" style="width:125px; max-width:125px"></td>
+			<td rowspan="2"><code class="code" tal:content="python:context.Sequence(10)" /></td>
+	</tr>
+	<tr tal:attributes="class python:'even';" tal:condition="python:seqstatistics.has_key('Composition')">
+		<td colspan="2" tal:define="complabels python:seqstatistics['Composition'].keys();
+					    labelsort python:complabels.sort();">
+				<dl tal:attributes="id string:group-${complabels}" class="collapsible inline collapsedOnLoad">
+                                <dt class="collapsibleHeader" tal:content="string:Composition">Composition</dt>
+                                <dd class="collapsibleContent">
+				<ul tal:repeat="complabel complabels">
+					<li><span tal:content="python:seqstatistics['Composition'][complabel]" /></li>
+                                </ul>
+				</dd>
+                                </dl>
+		</td>
+	</tr>
+	</table>
+
+
+
+        <tal:otherseq  tal:define="seqdict context/annotation_sequences;
+				   seqkeys python:seqdict.keys();" 
+		       tal:repeat="seqkey seqkeys">
+		       <table class="listing" summary="OtherSequences"
+				tal:condition="python:seqkey"
+                		tal:define="seq python:seqdict[seqkey][0];
+					    seqstatistics python:context.SeqStatistics(sequence=seq, type='protein');
+                            		    statistickeys python:seqstatistics.keys();">
+        	       <tr><th colspan="2" tal:content="string:Statistics"/><th tal:content="seqkey"/></tr>
+                       <tr tal:attributes="class python:'odd';">
+				<td tal:content="string:Length"></td>
+				<td tal:content="python:seqstatistics['Length']" style="width:125px; max-width:125px;vertical-align:top;"></td>
+		                <td rowspan="2" style="vertical-align:top;"><code class="code" tal:content="python:context.Sequence(10, seq)" style="vertical-align:top;" /></td></tr>
+                       <tr tal:attributes="class python:'even';" tal:condition="python:seqstatistics.has_key('Composition')">
+                                <td colspan="2" tal:define="complabels python:seqstatistics['Composition'].keys();
+                                	        labelsort python:complabels.sort();">
+						<dl tal:attributes="id string:group-${complabels}" class="collapsible inline collapsedOnLoad">
+						<dt class="collapsibleHeader" tal:content="string:Composition">Composition</dt>
+						<dd class="collapsibleContent">
+                                		<ul tal:repeat="complabel complabels" >
+                                        		<li><span tal:content="python:seqstatistics['Composition'][complabel]" /></li>
+                                		</ul>
+						</dd>
+						</dl>
+                		</td>
+        		</tr>
+        		</table>	
+
+	</tal:otherseq>
+		
+        </dd>
+	<dt id="fieldsetlegend-references" tal:condition="viewreferences">References</dt>
+        <dd id="fieldset-references"  tal:condition="viewreferences">
+             <ul tal:define="annotations context/annotations;"
+		 tal:condition="python:annotations.has_key('references')">
+                 <tal:reference  tal:define="references python:annotations['references'];"
+				   tal:repeat="ref references">
+                      <li tal:define="title python:ref.title;
+				      refdict python:{};
+				      authors python:refdict.update({'Authors' : ref.authors});
+				      journal python:refdict.update({'Journal' : ref.journal});
+				      location python:refdict.update({'Location' : ref.location});
+				      medline python:refdict.update({'Medline' : ref.medline_id});
+				      pubmed python:refdict.update({'Pubmed' : ref.pubmed_id});
+				      comment python:refdict.update({'Comment' : ref.comment});
+				      crc python:refdict.update({'CRC' : ref.consrtm});
+				      fields python:['Authors','Journal','Comment','Medline','Pubmed','Location','CRC'];
+				      fields python:[x for x in fields if refdict[x]];">
+                             <table class="listing" summary="References" style="width:100%">
+                                        <tr><th colspan="2" tal:content="python:'Title: ' + title"  style="text-align:left" style="width:100%"/></tr>
+					<tal:refdields   tal:repeat="field fields">
+					<tr     tal:define="oddrow repeat/field/odd;"
+						tal:condition="python:field != 'Pubmed' and field != 'Location'"
+						style="width:100%"
+                                                tal:attributes="class python:(oddrow and 'even' or 'odd');">
+                                                <td tal:content="field" style="width:200px; max-width:200px"/>
+                                                <td tal:content="python:refdict[field]"/>
+                                        </tr>
+					<tr     tal:define="oddrow repeat/field/odd;"
+                                                tal:condition="python:field == 'Pubmed'"
+                                                style="width:100%"
+                                                tal:attributes="class python:(oddrow and 'even' or 'odd');">
+                                                <td tal:content="field" style="width:200px; max-width:200px"/>
+						<td tal:define="refurl python:'http://www.ncbi.nlm.nih.gov/sites/entrez/%s' % (refdict[field],);">
+                                            		<a tal:attributes="href refurl"  tal:content="python:refdict[field]"/>
+						</td>
+                                        </tr>
+					<tr     tal:define="oddrow repeat/field/odd;"
+                                                tal:condition="python:field == 'Location'"
+                                                style="width:100%"
+                                                tal:attributes="class python:(oddrow and 'even' or 'odd');">
+                                                <td tal:content="field" style="width:200px; max-width:200px"/>
+                                                <td tal:define="start python:refdict[field][0].start.position;
+								end python:refdict[field][0].end.position;
+								loc python:str(start) + ':' + str(end)"
+						    tal:content="loc"/>
+                                        </tr>
+					</tal:refdields>
+                                </table>
+
+			</li>
+                 </tal:reference>
+             </ul>
+        </dd>
+    </dl>    
+</div>
+</body>
+</html>

@@ -23,8 +23,10 @@ To contact BioDec S.r.l.:
 	* Fax: (+39)-051-7459582
 
 BioDec S.r.l. is an Italian company:
-	* Address: BioDec S.r.l.; via Calzavecchio 20/2; I-40033
-	Casalecchio di Reno (BO), Italy
+	* Address: BioDec S.r.l.
+		via Calzavecchio 20/2 
+		I-40033 Casalecchio di Reno (BO) 
+		Italy
 
 This General Public License does not permit incorporating your program
 into proprietary programs.  If your program is a subroutine library, you

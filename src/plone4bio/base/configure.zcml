@@ -1,0 +1,40 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="plone4bio">
+
+    <five:registerPackage package="." initialize=".initialize" />
+
+    <!-- Poke dependencies -->
+
+    <!-- Include sub-packages -->
+    <include package=".content" />
+    <include package=".browser" />
+    <include package=".png" />
+    <include package=".tool" />
+
+    <class class="Products.ATContentTypes.content.folder.ATFolder">
+        <implements interface=".interfaces.ISeqRecordContainer" />
+    </class>
+
+    <class class="Products.ATContentTypes.content.folder.ATBTreeFolder">
+        <implements interface=".interfaces.ISeqRecordContainer" />
+    </class>
+
+    <class class="Products.CMFPlone.Portal.PloneSite">
+        <implements interface=".interfaces.ISeqRecordContainer" />
+    </class>
+
+    <adapter factory=".atct.UploadingFileFactory" />
+    
+    <!-- Register GenericSetup profile used for installation -->
+    <genericsetup:registerProfile
+        name="default"
+        title="Plone4Bio Base"
+        directory="profiles/default"
+        description="Extension profile for plone4bio.base."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+            
+</configure>

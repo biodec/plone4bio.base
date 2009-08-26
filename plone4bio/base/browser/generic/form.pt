@@ -1,5 +1,0 @@
-<div 
-	xmlns:tal="http://xml.zope.org/namespaces/tal"
-	tal:condition="python:not context.havePrediction('generic',{})">
-	<input type="checkbox" name="predictors:list" value="GenericPrediction">GENERIC
-</div>

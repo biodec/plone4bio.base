@@ -1,0 +1,32 @@
+<table class="listing" summary="DB Cross References" style="width:100%">
+		<thead>
+		<tal:dbxref tal:define="dbxref context/dbxrefs" 
+			    tal:condition="python:dbxref != []">
+                      <tr>
+                          <th class="sort">Data Source</th>
+                          <th class="sort">Accession</th>
+                      </tr>
+		</tal:dbxref>
+                </thead>
+		<tbody>
+		<tal:dbxref tal:repeat="dbxref context/dbxrefs">
+			<tal:dbxrefdef    tal:define="oddrow repeat/dbxref/odd;
+                                                      dbxreftuple python:dbxref.split(':');
+                                                      dbxrefdb python:dbxreftuple[0];
+                                                      dbxrefacc python:':'.join(dbxreftuple[1:]);
+						      url python:view.getdbxref_url(dbxrefdb,dbxrefacc);
+                                                      ">
+		    	     <tr    tal:condition="python:url"
+                      		    tal:attributes="class python:(oddrow and 'even' or 'odd')"> 
+			    		<td tal:content="dbxrefdb" />	
+			    		<td ><a tal:attributes="href url"  tal:content="dbxrefacc"/></td>
+			     </tr>
+			     <tr    tal:condition="python: not url"
+                                    tal:attributes="class python:(oddrow and 'even' or 'odd')">
+                                        <td tal:content="dbxrefdb" />
+                                        <td tal:content="dbxrefacc" />
+                             </tr>
+                        </tal:dbxrefdef>
+                </tal:dbxref>
+		</tbody> 	
+	     </table>

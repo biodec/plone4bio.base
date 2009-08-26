@@ -1,0 +1,27 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:gs="http://namespaces.zope.org/genericsetup"
+    >
+
+  <adapter
+      factory=".exportimport.PredictorToolXMLAdapter"
+      provides="Products.GenericSetup.interfaces.IBody"
+      for="..interfaces.IPredictorTool
+           Products.GenericSetup.interfaces.ISetupEnviron"
+      />
+
+    <gs:importStep
+        name="plone4bio-settings-import"
+        title="Plone4Bio Import"
+        description=""
+        handler=".exportimport.importPredictors"
+    />
+
+    <gs:exportStep
+        name="plone4bio-settings-export"
+        title="Plone4Bio Export"
+        description=""
+        handler=".exportimport.exportPredictors"
+    />
+
+</configure>

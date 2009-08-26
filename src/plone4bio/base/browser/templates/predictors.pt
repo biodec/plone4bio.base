@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/@@standard_macros/page"
+      i18n:domain="plone4bio">
+<head>
+</head>
+
+<body>
+    <div metal:fill-slot="body">
+  
+        <h1 class="documentFirstHeading" tal:content="context/title" />
+
+        <form action="" tal:attributes="action string:${here/absolute_url}/runPredictor">
+            <tal:predictors tal:repeat="predictor view/getPredictors">
+                <div><span tal:content="predictor/name" />
+                   <input type="submit" name="predictor" value="" tal:attributes="value predictor/name" />
+                </div>
+            </tal:predictors>
+        </form>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<componentregistry>
+ <adapters/>
+ <utilities>
+  <utility
+     interface="plone4bio.base.interfaces.IPredictorTool"
+     object="plone4bio_predictors"/>
+ </utilities>
+</componentregistry>
+

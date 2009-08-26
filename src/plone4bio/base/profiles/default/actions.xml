@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<object name="portal_actions" meta_type="Plone Actions Tool"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+  <object name="object" meta_type="CMF Action Category">
+    <object name="load" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Load data</property>
+      <property name="description" i18n:translate="">...</property>
+      <property name="url_expr">string:${object/upload_url}</property>
+      <property name="available_expr">object/display_upload|nothing</property>
+      <property name="permissions">
+        <element value="Add portal content"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="predictors" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Predictors</property>
+      <property name="description" i18n:translate="">...</property>
+      <property name="url_expr">string:${object/predictors_url}</property>
+      <property name="available_expr">object/can_predict|nothing</property>
+      <property name="permissions">
+        <element value="Modify portal content"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+  </object>
+</object>

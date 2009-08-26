@@ -1,0 +1,8 @@
+Internal use only
+
+* creare utility per predittori 
+* agiungere menu per export (gff, fasta, ...)
+* test, test, test, ... (doctest)
+
+* valutare http://pypi.python.org/pypi/collective.transmogrifier
+* ... plone.indexer, plone.z3cform, z3c.form

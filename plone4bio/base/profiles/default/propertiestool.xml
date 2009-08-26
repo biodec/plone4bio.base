@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<object name="portal_properties" meta_type="Plone Properties Tool">
-  <object name="plone4bio_properties" meta_type="Plone Property Sheet">
-    <property name="Plone4BioPredictors" type="lines" purge="False">
-	   <element value="GenericPrediction"/>
-    </property>
-  </object>
-</object>

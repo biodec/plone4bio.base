@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>hoverIntent jQuery Plug-in</title>
+	<link rel="stylesheet" type="text/css" href="./cherne.css" />
+
+	<script type="text/javascript" src="./jquery.js"></script>
+	<script type="text/javascript" src="./jquery.hoverIntent.js"></script>
+
+	<!-- DEMO CSS -->
+	<style type="text/css" media="screen">
+		/* styles for the demo examples -- not required for hoverIntent to work, just for demo purposes */
+		#RESOURCES #main .demo li { padding-bottom: 0; }
+		ul.demo {display:block; width:100%; height:75px; padding:0; margin:0; background:#9cc; list-style-type:none;}
+		ul.demo li {background:#fcc; display:block; width:25%; height:50px; padding:0; margin:0; float: left; position:relative; overflow:hidden; cursor:default;  font-size:0.9em; line-height:1.1em;}
+		ul.demo li.p2 {background:#ffc;}
+		ul.demo li.p3 {background:#cfc;}
+		ul.demo li.p4 {background:#ccf;}
+		ul.demo li span { display:block; margin:4px; background:#eef; cursor:default;}
+	</style>
+
+	<!-- DEMO JS -->
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function(){
+			$("#demo1 li").hover(makeTall,makeShort);
+			$("#demo2 li").hoverIntent(makeTall,makeShort);
+			$("#demo3 li").hoverIntent({
+				sensitivity: 1, 
+				interval: 750, 
+				over: makeTall, 
+				timeout: 750, 
+				out: makeShort
+			});
+		}); // close document.ready
+
+		function makeTall(){  $(this).animate({"height":75},200).html( $(this).html() + " makeTall" );}
+		function makeShort(){ $(this).animate({"height":50},200).html( $(this).html() + " makeShort" );}
+	</script>
+
+</head>
+
+<body id="RESOURCES">
+
+<div id="pageContent">
+
+	<div id="main">
+
+
+		<h2>What is hoverIntent?</h2>
+		<p>hoverIntent is a function that attempts to determine the user's intent... like a crystal ball, only with mouse movement! It works like (and was derived from) <a href="http://jquery.com/">jQuery</a>'s built-in <a href="http://docs.jquery.com/Events#hover.28_over.2C_out_.29">hover</a>. However, instead of immediately calling the onMouseOver function, it waits until the user's mouse slows down enough before making the call.</p>
+		<p>Why? To delay or prevent the accidental firing of animations or ajax calls. Simple timeouts work for small areas, but if your target area is large it may execute regardless of intent. Also, because jQuery animations cannot be stopped once they've started it's best not to start them prematurely.</p>
+		<p class="download"><a href="jquery.hoverIntent.js">Download hoverIntent (fully-commented, uncompressed)</a></p>
+		<p class="download"><a href="jquery.hoverIntent.minified.js">Download hoverIntent (minified)</a></p>
+
+
+		<h2>Examples</h2>
+
+		<h3>jQuery's hover (for reference)</h3>
+		<pre>$("#demo1 li").hover( makeTall, makeShort )</pre>
+		<ul class="demo" id="demo1">
+			<li class="p1">&nbsp;</li>
+			<li class="p2">&nbsp;</li>
+			<li class="p3">&nbsp;</li>
+			<li class="p4"><span>hover ignores over/out events from children</span></li>
+		</ul>
+		<p>jQuery's built-in hover calls onMouseOver/onMouseOut functions immediately.</p>
+
+		<h3>hoverIntent (as hover replacement)</h3>
+		<pre>$("#demo2 li").hoverIntent( makeTall, makeShort )</pre>
+		<ul class="demo" id="demo2">
+			<li class="p1">&nbsp;</li>
+			<li class="p2">&nbsp;</li>
+			<li class="p3">&nbsp;</li>
+			<li class="p4"><span>hoverIntent also ignores over/out events from children</span></li>
+		</ul>
+		<p>hoverIntent is interchangeable with jQuery's hover. It can use the same exact onMouseOver and onMouseOut functions and it returns the same <strong>this</strong> and <strong>event</strong> objects to those functions.</p>
+	
+
+		<h3>hoverIntent (with configuration object)</h3>
+<pre>
+var config = {    
+     sensitivity: 1, <span>// number = sensitivity threshold (must be 1 or higher)</span>    
+     interval: 750, <span>// number = milliseconds for onMouseOver polling interval</span>    
+     over: makeTall, <span>// function = onMouseOver callback (REQUIRED)</span>    
+     timeout: 750, <span>// number = milliseconds delay before onMouseOut</span>    
+     out: makeShort <span>// function = onMouseOut callback (REQUIRED)</span>    
+};
+
+$("#demo3 li").hoverIntent( config )
+</pre>
+		<ul class="demo" id="demo3">
+			<li class="p1">&nbsp;</li>
+			<li class="p2">&nbsp;</li>
+			<li class="p3">&nbsp;</li>
+			<li class="p4">&nbsp;</li>
+		</ul>
+		<p>To override the default configuration of hoverIntent, pass it an object as the first (and only) parameter. The object must contain "over" and "out" functions, in addition to any other options you'd like to override.</p>
+
+
+		<h2>Notice of DOM Manipulation</h2>
+		<p>hoverIntent adds two custom attributes to every DOM element it's assigned to. For example: &lt;li hoverIntent_t="" hoverIntent_s=""&gt;
+			<ul>
+				<li>hoverIntent_t is the polling interval timer, or the mouseOut timer.</li>
+				<li>hoverIntent_s stores the state to prevent unmatched function calls.</li>
+			</ul>
+		</p>
+		<p>Timers are stored as integers, so there should not be any <a href="http://msdn.microsoft.com/library/en-us/IETechCol/dnwebgen/ie_leak_patterns.asp">trouble with memory leaks</a>. hoverIntent state is also stored as an integer.</p>
+
+
+		<h2>Known Bugs</h2>
+		<p>If you place an element with onMouseOut event listeners flush against the edge of the browser chrome, sometimes Internet Explorer does not trigger an onMouseOut event immediately if your mouse leaves the document. hoverIntent does not correct for this.</p>
+		<p>Is it a bug or a feature? Because .hover() and .hoverIntent() both ignore over/out events from children nodes (using "return false") this also prevents the statusbar readout of nested anchor tag hrefs. No known fix for this is known at this time.</p>
+		<p>Please contact me ( <a href="mailto:brian@cherne.net">brian@cherne.net</a> ) if you'd like to be notified directly of any bugs/fixes/updates. Announcements will also be made on the <a href="http://groups.google.com/group/jquery-en">jQuery (English) Google Group</a>.</p>
+
+
+		<h2>Release History</h2>
+		<ul>
+			<li>r5 = Current release. Added state to prevent unmatched function calls.</li>
+			<li>r4 = Fixed polling interval timing issue (now uses a self-calling timeout to avoid interval irregularities).</li>
+			<li>r3 = Developer-only release for debugging.</li>
+			<li>r2 = Added timeout and interval references to DOM object -- keeps timers separate from each other. Added configurable options. Added timeout option to delay onMouseOut function call. Fixed two-interval mouseOver bug (now setting pX and pY onMouseOver instead of hardcoded value).</li>
+			<li>r1 = Initial release to jQuery discussion forum for feedback.</li>
+		</ul>
+
+	</div><!-- close #main -->
+
+</div><!-- close #pageContent -->
+
+</body>
+</html>
