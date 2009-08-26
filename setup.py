@@ -31,8 +31,8 @@ setup(name='plone4bio.base',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
-          'numpy',
           'biopython',
+          'numpy',
       ],
       entry_points="""
       # -*- Entry points: -*-
