@@ -130,7 +130,6 @@ class Predictor(SimpleItem):
         """ """
         assert type(argv[0]) == list
         assert type(argv[1]) == dict
-        import pdb; pdb.set_trace()
         if not hasattr(self, '_v_predictor'):
             self._load_predictor()
         if ISeqRecord.providedBy(obj):
