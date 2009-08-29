@@ -1,12 +1,6 @@
 from zope.i18nmessageid import MessageFactory
 Plone4BioMessageFactory = MessageFactory('plone4bio')
 
-import monkey
-monkey.__name__
-
-# Kick the permission definition
-#import permissions
-
 class Plone4BioException(Exception):
     pass
 

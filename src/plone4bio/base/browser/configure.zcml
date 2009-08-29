@@ -63,8 +63,8 @@
 	<!--  TODO:adapter -->
     <browser:page
 		for="..interfaces.ISeqRecord"
-	    name="gff"
-		class=".seqrecord.SeqRecord2GFF"
+	        name="gbk"
+		class=".seqrecord.SeqRecord2Genbank"
 		permission="zope2.View"
 		/>
 

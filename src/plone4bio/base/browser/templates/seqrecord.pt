@@ -41,8 +41,8 @@
     </table>
 
     <ul>
-        <li>Export as <a tal:attributes="href string:${here/absolute_url}/fasta">Fasta</a>
-        <li>Export as <a tal:attributes="href string:${here/absolute_url}/gff">GFF</a>
+        <li>Export as <a tal:attributes="href string:${here/absolute_url}/fasta">fasta</a>
+        <li>Export as <a tal:attributes="href string:${here/absolute_url}/gbk">genbank</a>
     </ul>
 
     <dl class="enableFormTabbing">

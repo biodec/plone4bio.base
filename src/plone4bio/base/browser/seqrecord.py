@@ -39,7 +39,7 @@ class SeqRecordEditForm(base.EditForm):
     form_name = _(u"Edit SeqRecord")
 
 #TODO: adapter ???
-class SeqRecord2GFF(BrowserView):
+class SeqRecord2Genbank(BrowserView):
     """ """
     def __call__(self):
         io = StringIO()
