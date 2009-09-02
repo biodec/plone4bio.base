@@ -1,5 +1,6 @@
 #
 from zope.formlib import form
+from zope.component import createObject
 
 from plone.app.form import base
 from Products.CMFCore.utils import getToolByName
