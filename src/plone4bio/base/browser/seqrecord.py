@@ -46,7 +46,11 @@ class SeqRecord2Genbank(BrowserView):
         io = StringIO()
         # FIXME:
         self.context.Description()
-        SeqIO.write([self.context.seqrecord, ], io, "genbank")
+	## CHECK LUNGHEZZA LOCUS < 16
+	seqrecord = self.context.seqrecord
+	if len(seqrecord.name) > 16:
+		seqrecord.name = ''
+        SeqIO.write([seqrecord, ], io, "genbank")
         return io.getvalue()
     
 #TODO: adapter ???
