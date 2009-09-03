@@ -38,7 +38,9 @@ def seqrecordImagemap(context, request):
     # FIXME: XXX
     context.Description()
     genbank=StringIO()
-    SeqIO.write([context.seqrecord, ], genbank, "genbank")
+    seqrecord = context.seqrecord
+    seqrecord.name = seqrecord.name[:16]
+    SeqIO.write([seqrecord, ], genbank, "genbank")
     (stdoutdata, stderrdata) = graphics.communicate(genbank.getvalue())
     return stdoutdata
 
@@ -55,6 +57,8 @@ def seqrecordPNG(context, request):
     # FIXME: XXX
     context.Description()
     genbank=StringIO()
-    SeqIO.write([context.seqrecord, ], genbank, "genbank")
+    seqrecord = context.seqrecord
+    seqrecord.name = seqrecord.name[:16]
+    SeqIO.write([seqrecord, ], genbank, "genbank")
     (stdoutdata, stderrdata) = graphics.communicate(genbank.getvalue())
     return stdoutdata
