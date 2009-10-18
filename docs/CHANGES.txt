@@ -1,14 +1,23 @@
-===========================
+======================
 plone4bio.base Changes
-===========================
+======================
+
+plone4bio.base 1.0.2 (unreleased)
+=================================
+
+plone4bio.base 1.0.1 (2009-09-21)
+=================================
 
 Features
 --------
 
-* Added the new object `predictor'.
+* features image via bioperl
 
-* TODO: add a fully working predictor.
+* html imagemap via bioperl
 
+* initial load seqrecord from genbank
+
+* inital predictor functionalities
 
 plone4bio.base  (2008-01-31)
 =================================

@@ -37,12 +37,14 @@ class ISeqRecord(Interface):
                            description=_(u"The sequence"),
                            required=True,
                            default=u'')
+
     # TODO: vocabulary
     alphabet = fields.ChoiceWORM(title=_(u"Alphabet"), values = ["Bio.Alphabet.ProteinAlphabet",
                                                              "Bio.Alphabet.IUPAC.ExtendedIUPACProtein",
                                                              "Bio.Alphabet.IUPAC.IUPACProtein",
                                                              ])
-    dbxrefs = schema.List(title=_(u"Dbxrefs"), value_type=schema.TextLine(title=_(u"dbxref")))
+
+    dbxrefs = schema.List(title=_(u"Dbxrefs"), value_type=schema.TextLine(title=_(u"dbxref")), required=False)
     #TODO: annotation value will be also a list ...
     #TODO: there is no default widget for Dict
     #annotations = schema.Dict(title=_(u"Annotations"),
