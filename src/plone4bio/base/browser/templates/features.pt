@@ -28,7 +28,7 @@
 					    <tal:features tal:repeat="feature features">
 					        <tr
                                				tal:define="oddrow repeat/feature/odd;
-								    start python:'Start: ' + str(feature.location.start.position);
+								    start python:'Start: ' + str(feature.location.start.position + 1);
                                                                     end python:'End: ' + str(feature.location.end.position);"
                                				tal:attributes="class python:(oddrow and 'even' or 'odd')">
 							<td><b tal:content="feature/type" /></td>

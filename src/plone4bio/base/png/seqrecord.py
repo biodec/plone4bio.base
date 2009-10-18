@@ -40,6 +40,8 @@ def seqrecordImagemap(context, request):
     genbank=StringIO()
     seqrecord = context.seqrecord
     seqrecord.name = seqrecord.name[:16]
+    for f in seqrecord.features:
+        f.type = f.type.replace(" ", "_")
     SeqIO.write([seqrecord, ], genbank, "genbank")
     (stdoutdata, stderrdata) = graphics.communicate(genbank.getvalue())
     return stdoutdata

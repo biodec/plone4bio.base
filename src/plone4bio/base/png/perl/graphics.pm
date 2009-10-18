@@ -229,7 +229,7 @@ sub printSeqRecord {
       my $map = qq(<map name="$name" id="$name">\n);
       foreach (@$boxes){
         my ($feature,$left,$top,$right,$bottom,$track) = @$_;
-        my $start = $feature->start - 1;
+        my $start = $feature->start;
         my $end = $feature->end;
         my $tag = eval {$feature->method} || $feature->primary_tag;
         # my $description = $track->option('title');
