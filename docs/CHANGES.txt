@@ -5,6 +5,11 @@ plone4bio.base Changes
 plone4bio.base 1.0.2 (unreleased)
 =================================
 
+Bug Fixes
+---------
+
+* fix #8 "sequence feature diagram generator does not support feature types containing ' '"
+
 plone4bio.base 1.0.1 (2009-09-21)
 =================================
 

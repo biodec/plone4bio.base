@@ -46,10 +46,12 @@ class SeqRecord2Genbank(BrowserView):
         io = StringIO()
         # FIXME:
         self.context.Description()
-	## CHECK LUNGHEZZA LOCUS < 16
 	seqrecord = self.context.seqrecord
-	if len(seqrecord.name) > 16:
-		seqrecord.name = ''
+	# the maximum length of locus name, for genbak format, is 16
+	seqrecord.name = seqrecord.name[:16]
+        # features
+        for f in seqrecord.features:
+            f.type = f.type.replace(" ", "_")
         SeqIO.write([seqrecord, ], io, "genbank")
         return io.getvalue()
     
