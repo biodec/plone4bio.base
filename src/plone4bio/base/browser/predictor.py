@@ -1,5 +1,3 @@
-#
-from datetime import datetime
 import Acquisition
 
 from Products.CMFCore.utils import getToolByName

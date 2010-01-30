@@ -26,7 +26,6 @@ Creating a sequence
 
 Let us create some sequences.
 
-    >>> from Products.PloneTestCase import ptc
     >>> self.login()
     >>> self.setRoles(('Manager',))
     >>> self.portal.invokeFactory('SeqRecord', u'ferritin', title=u'Ferritin')
