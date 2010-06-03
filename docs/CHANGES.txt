@@ -2,7 +2,7 @@
 plone4bio.base Changes
 ======================
 
-plone4bio.base 1.0.2 (unreleased)
+plone4bio.base 1.0.2 (2010-06-03)
 =================================
 
 Bug Fixes
