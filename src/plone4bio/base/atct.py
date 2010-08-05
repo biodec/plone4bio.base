@@ -3,6 +3,7 @@ from zope.component import adapts
 from zope.filerepresentation.interfaces import IFileFactory
 from plone4bio.base.interfaces import ISeqRecordContainer
 
+# TODO
 class UploadingFileFactory(object):
     implements(IFileFactory)
     adapts(ISeqRecordContainer)
@@ -13,8 +14,10 @@ class UploadingFileFactory(object):
         self.context = context
 
     def __call__(self, name, content_type, data):
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
+        pass
 
     def loadData(self, *args, **kwargs):
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
+        pass
 

@@ -75,7 +75,6 @@ class SeqRecord(Item):
     features = [] # TODO
 
     def __init__(self, *args, **kwargs):
-        import pdb; pdb.set_trace()
         seqrecord = None
         if kwargs.has_key('seqrecord'):
             seqrecord = kwargs['seqrecord']
@@ -117,7 +116,6 @@ class SeqRecord(Item):
             annotations - Further information about the whole 
                           sequence (dictionary)
         """
-        # from stxnext import pdb;pdb.set_trace()
         seqr = BioSeqRecord(id=self.Accession(),  
                             seq=BioSeq(self.Sequence(), self.alphabetClass()()),
                             name=self.Name(), 
