@@ -1,58 +1,50 @@
 <div tal:define="featuredict context/features_dict">
-             <tal:imagemap tal:content="structure context/@@imagemap" />
-	     <dl>
-	     <dd> 
-             <div align="center" >
-                 <img usemap="#graphicsmap" src="" tal:attributes="src string:${here/absolute_url}/features.png" />
-             </div>
-	     </dd>
-	     </dl> 
-	     <tal:features tal:repeat="featuretype featuredict">
-	     <dl tal:attributes="id string:group-${featuretype}" class="collapsible inline collapsedOnLoad">
-             <dt class="collapsibleHeader" tal:content="featuretype" >Feature</dt>
-             <dd class="collapsibleContent" >
-                  <div  tal:define="featureaccessiondict python:featuredict[featuretype];"
-			  class="listing" summary="Features" style="width:100%">
-			  <tal:featuregroup tal:repeat="featureaccession featureaccessiondict">
-				<table class="listing" summary="FeaturesAccession" style="width:100%"
+    <tal:imagemap tal:content="structure here/@@imagemap" />
+    <div align="center" style="overflow: auto; ">
+        <img style="max-width: none;" usemap="#graphicsmap" src="" tal:attributes="src string:${here/absolute_url}/features.png" />
+    </div>
+    <div id="accordion-features">
+	    <tal:features tal:repeat="featuretype featuredict">
+            <h3><a href="#" tal:content="featuretype">group featuretype</a></h3>
+            <div tal:define="featureaccessiondict python:featuredict[featuretype];"
+			        class="listing" summary="Features" style="width:100%">
+			    <tal:featuregroup tal:repeat="featureaccession featureaccessiondict">
+				    <table class="listing" summary="FeaturesAccession" style="width:100%"
 						    tal:define="features python:featureaccessiondict[featureaccession]">
-					<thead>
-                                            <tr><th colspan="3" style="text-align:left" style="width:100%"><b tal:content="featureaccession"/></th></tr>
-					    <tr>
+					    <thead>
+                            <tr><th class="nosort" colspan="3" tal:content="featureaccession">feature accession</th></tr>
+					        <tr>
                           			<th class="nosort">type</th>
                           			<th class="nosort">location</th>
                           			<th class="nosort">qualifiers</th>
-                      			    </tr>
-					</thead>
-					<tbody>
-					    <tal:features tal:repeat="feature features">
-					        <tr
-                               				tal:define="oddrow repeat/feature/odd;
-								    start python:'Start: ' + str(feature.location.start.position + 1);
-                                                                    end python:'End: ' + str(feature.location.end.position);"
-                               				tal:attributes="class python:(oddrow and 'even' or 'odd')">
-							<td><b tal:content="feature/type" /></td>
-                               				<td tal:content="python:start + ' : ' + end" />
-                               				<td>
-                                   				<ul>
-                                       				<tal:qualifiers tal:repeat="key feature/qualifiers/keys">
-                                            				<li tal:condition="python:isinstance(feature.qualifiers[key],list)">
-										<b tal:content="key" />: <span tal:content="python:feature.qualifiers[key][0]" />
-									</li>
-									<li tal:condition="python:isinstance(feature.qualifiers[key],str)">
-                                                                                <b tal:content="key" />: <span tal:content="python:feature.qualifiers[key]" />
-                                                                        </li>
-                                       				</tal:qualifiers>
-                                   				</ul>
-                               				</td>
-                           			</tr>
-						</tal:features> 
+                      	    </tr>
+					    </thead>
+					    <tbody>
+					        <tal:features tal:repeat="feature features">
+					            <tr tal:define="oddrow repeat/feature/odd;
+								            start python:'Start: ' + str(feature.location.start.position + 1);
+                                            end python:'End: ' + str(feature.location.end.position);"
+                               		    tal:attributes="class python:(oddrow and 'even' or 'odd')">
+							        <td><strong tal:content="feature/type" /></td>
+                               		<td tal:content="python:start + ' : ' + end" />
+                               	    <td>
+                                   	    <ul>
+                                       	    <tal:qualifiers tal:repeat="key feature/qualifiers/keys">
+                                                <li tal:condition="python:isinstance(feature.qualifiers[key],list)">
+										            <strong tal:content="key" />: <span tal:content="python:feature.qualifiers[key][0]" />
+									            </li>
+									            <li tal:condition="python:isinstance(feature.qualifiers[key],str)">
+                                                    <strong tal:content="key" />: <span tal:content="python:feature.qualifiers[key]" />
+                                                 </li>
+                                       		</tal:qualifiers>
+                                   		</ul>
+                               		</td>
+                           		</tr>
+						    </tal:features> 
 						</tbody>
-				</table>
-			  </tal:featuregroup>
-                    </div>
-              </dd>
-              </dl>
-	      </tal:features>
-	
+				    </table>
+			    </tal:featuregroup>
+            </div>
+        </tal:features>	
+    </div>    
 </div>

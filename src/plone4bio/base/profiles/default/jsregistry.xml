@@ -9,5 +9,8 @@
  <javascript cacheable="True" compression="safe" cookable="True"
     enabled="1" expression="" id="++resource++plone4bio-imagemap.js"
     insert-after="jquery.js" />
+ <javascript cacheable="True" compression="safe" cookable="True"
+    enabled="1" expression="" id="++resource++plone4bio.javascripts/plone4bio.js"
+    insert-after="jquery.js" />
 </object>
 

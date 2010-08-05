@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0.2'
+version = '1.1.0'
 
 setup(name='plone4bio.base',
       version=version,
@@ -32,6 +32,8 @@ setup(name='plone4bio.base',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
+          'plone.app.registry',
+          'collective.js.jqueryui',
           'numpy',
           'biopython',
       ],

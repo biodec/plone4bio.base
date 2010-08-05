@@ -120,6 +120,11 @@
         directory="images"
         />
 
+    <browser:resourceDirectory
+        name="plone4bio.javascripts"
+        directory="javascripts"
+        />
+
     <browser:resource
       name="plone4bio.css"
       file="css/plone4bio.css"

@@ -16,6 +16,10 @@
         name="plone4bio.base.SeqRecord"
         />
 
+    <!--
+    <adapter factory=".seqrecord.SeqRecordSearchableText" />
+    -->
+
     <class class=".seqrecord.SeqRecord">
         <require
             permission="zope2.View"

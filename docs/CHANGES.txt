@@ -2,6 +2,16 @@
 plone4bio.base Changes
 ======================
 
+plone4bio.base 1.1.0 (unreleased)
+=================================
+
+Features
+--------
+
+* works with Plone 4.x
+
+* use plone4bio.graphics instead BioPerl's stuff
+
 plone4bio.base 1.0.2 (2010-06-03)
 =================================
 

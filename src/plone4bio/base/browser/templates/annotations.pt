@@ -1,51 +1,46 @@
-	     <tal:annotations tal:define="annotations context/annotations;
-					  keys python:annotations.keys();
-					  keystoignore python:[x for x in keys if x[-7:] == 'protein' ];
-					  keys python:list(set(keys).difference(['references','dbxref','dates','gi','id']+keystoignore));
-					  keysgroups python:[x.split('_')[0] for x in keys];
-					  keysgroups python:list(set(keysgroups));
-					  sorting python:keysgroups.sort()"
-			        tal:repeat="keygroup keysgroups">
-                                <dl tal:attributes="id string:group-${keygroup}" class="collapsible inline collapsedOnLoad">
-                                <dt class="collapsibleHeader" tal:content="keygroup">keygroup</dt>
-                                <dd class="collapsibleContent">
-                                <table class="listing" summary="Annotations" style="width:100%">
-                                        <tr><th colspan="2" tal:content="keygroup"  style="text-align:left" style="width:100%"/></tr>
-					<tal:annotgroup  tal:define="subannots python:[key for key in keys if key.startswith(keygroup)];
-								     sorting python:subannots.sort();"
-						         tal:repeat="subannot subannots">
-					<tr   	style="width:100%"
-						tal:define="oddrow repeat/subannot/odd;
+<div id="accordion-annotations">
+    <tal:annotations tal:define="annotations context/annotations;
+                keys python:annotations.keys();
+			    keystoignore python:[x for x in keys if x[-7:] == 'protein' ];
+			    keys python:list(set(keys).difference(['references','dbxref','dates','gi','id']+keystoignore));
+			    keysgroups python:[x.split('_')[0] for x in keys];
+			    keysgroups python:list(set(keysgroups));
+			    sorting python:keysgroups.sort()"
+	        tal:repeat="keygroup keysgroups">
+        <h3><a href="#" tal:content="keygroup">keygroup</a></h3>
+        <div>
+            <table class="listing" summary="Annotations" style="width:100%">
+			    <tal:annotgroup tal:define="subannots python:[key for key in keys if key.startswith(keygroup)]; 
+                            sorting python:subannots.sort();"
+				        tal:repeat="subannot subannots">
+					<tr tal:define="oddrow repeat/subannot/odd;
 							    annotdatas python:annotations[subannot];"
-                                                tal:attributes="class python:(oddrow and 'even' or 'odd');">
-						<td tal:content="subannot" style="width:200px; max-width:200px"/>
-						<td
-						    tal:condition="python:isinstance(annotdatas,list) and annotdatas">
-						    	<ul>
+                            tal:attributes="class python:(oddrow and 'even' or 'odd');">
+						<td tal:content="subannot" />
+						<td tal:condition="python:isinstance(annotdatas,list) and annotdatas">
+						    <ul>
 							    <tal:annotdata tal:define="annotlist python:[];
 										       annotlistspace python:[];
 										       genlist python:[annotlist.extend(x.split('###')) for x in annotdatas];
 										       insertspace python:[annotlistspace.append(', '.join(x.split(','))) for x in annotlist]"
 									   tal:repeat="annotdata annotlistspace">
-								<li><span tal:content="annotdata" /></li>
+								    <li tal:content="annotdata">annotation data</li>
 							    </tal:annotdata>
-						    	</ul>
+						    </ul>
 						</td>
-						<td 
-                                                    tal:condition="python:isinstance(annotdatas,str) and annotdatas" >
-                                                        <ul>
+						<td tal:condition="python:isinstance(annotdatas,str) and annotdatas">
+                            <ul>
 							    <tal:annotdata  tal:define="annotlistspace python:[];
 											annotdatas python:annotdatas.split('###');
 											insertspace python:[annotlistspace.append(', '.join(x.split(','))) for x in annotdatas]"
 									    tal:repeat="annotdata annotlistspace">
-                                                                <li><span tal:content="annotdata" /></li>
+                                    <li tal:content="annotdata">annotation data</li>
 							    </tal:annotdata>
-                                                        </ul>
-                                                </td>
+                            </ul>
+                        </td>
 					</tr>
-					</tal:annotgroup>					
-				</table>
-				</dd>
-                  		</dl>
-
-	     </tal:annotations>
+				</tal:annotgroup>					
+			</table>
+		</div>
+    </tal:annotations>
+</div>

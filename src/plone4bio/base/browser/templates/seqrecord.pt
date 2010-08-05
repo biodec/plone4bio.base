@@ -1,17 +1,32 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      metal:use-macro="context/@@standard_macros/page"
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
       i18n:domain="plone4bio">
 <head>
 </head>
 
 <body>
-	<div metal:fill-slot="body">
-  
-    <h1 class="documentFirstHeading" tal:content="context/title" />
+  <div metal:fill-slot="main">
+    <metal:main-macro define-macro="main">
 
+        <div tal:replace="structure provider:plone.abovecontenttitle" />
+
+        <h1 tal:content="object_title|nothing" class="documentFirstHeading">
+            Title or id
+        </h1>
+
+        <div tal:replace="structure provider:plone.belowcontenttitle" />
+
+        <a href=""
+           class="link-parent"
+           tal:define="parent_url python:here.navigationParent(here)"
+           tal:condition="parent_url"
+           tal:attributes="href parent_url"
+           i18n:translate="go_to_parent_url">
+        Up one level
+        </a>
+
+        <div tal:replace="structure provider:plone.abovecontentbody" />
 
     <table class="listing vertical" summary="Main" style="width:100%">
         <tr>
@@ -47,11 +62,11 @@
 
     <dl class="enableFormTabbing">
 		<dt id="fieldsetlegend-annotations" tal:condition="context/annotations">Annotations</dt>
-        <dd id="fieldset-annotations" tal:condition="context/annotations" tal:content="structure context/@@annotations" />	     
+        <dd id="fieldset-annotations" tal:condition="context/annotations" tal:content="structure here/@@annotations" />	     
         <dt id="fieldsetlegend-features" tal:condition="context/features">Features</dt>
-        <dd id="fieldset-features" tal:condition="context/features" tal:content="structure context/@@features" />	     
+        <dd id="fieldset-features" tal:condition="context/features" tal:content="structure here/@@features" />	     
         <dt id="fieldsetlegend-dbxrefs" tal:condition="context/dbxrefs">Dbxrefs</dt>
-        <dd id="fieldset-dbxrefs" tal:condition="context/dbxrefs" tal:content="structure context/@@dbxrefs" />
+        <dd id="fieldset-dbxrefs" tal:condition="context/dbxrefs" tal:content="structure here/@@dbxrefs" />
 		<dt id="fieldsetlegend-sequence">Sequences</dt>
         <dd id="fieldset-sequence">
 			<table class="listing" summary="Sequence"
@@ -84,25 +99,25 @@
 
 		
         </dd>
-	<dt id="fieldsetlegend-references" tal:condition="context/annotations/references|python:False">References</dt>
-        <dd id="fieldset-references"  tal:condition="context/annotations/references|python:False">
-             <ul tal:define="annotations context/annotations;"
-		 tal:condition="python:annotations.has_key('references')">
-                 <tal:reference  tal:define="references python:annotations['references'];"
-				   tal:repeat="ref references">
-                      <li tal:define="title python:ref.title;
-				      refdict python:{};
-				      authors python:refdict.update({'Authors' : ref.authors});
-				      journal python:refdict.update({'Journal' : ref.journal});
-				      location python:refdict.update({'Location' : ref.location});
-				      medline python:refdict.update({'Medline' : ref.medline_id});
-				      pubmed python:refdict.update({'Pubmed' : ref.pubmed_id});
-				      comment python:refdict.update({'Comment' : ref.comment});
-				      crc python:refdict.update({'CRC' : ref.consrtm});
-				      fields python:['Authors','Journal','Comment','Medline','Pubmed','Location','CRC'];
-				      fields python:[x for x in fields if refdict[x]];">
-                             <table class="listing" summary="References" style="width:100%">
-                                        <tr><th colspan="2" tal:content="python:'Title: ' + title"  style="text-align:left" style="width:100%"/></tr>
+	    <dt id="fieldsetlegend-references" tal:condition="context/annotations/references|nothing">References</dt>
+        <dd id="fieldset-references"  tal:condition="context/annotations/references|nothing">
+            <tal:annotations tal:define="annotations context/annotations;"
+		            tal:condition="python:annotations.has_key('references')">
+                <tal:reference  tal:define="references python:annotations['references'];"
+				        tal:repeat="ref references">
+                    <div tal:define="title python:ref.title;
+				              refdict python:{};
+				              authors python:refdict.update({'Authors' : ref.authors});
+				              journal python:refdict.update({'Journal' : ref.journal});
+				              location python:refdict.update({'Location' : ref.location});
+				              medline python:refdict.update({'Medline' : ref.medline_id});
+				              pubmed python:refdict.update({'Pubmed' : ref.pubmed_id});
+				              comment python:refdict.update({'Comment' : ref.comment});
+				              crc python:refdict.update({'CRC' : ref.consrtm});
+				              fields python:['Authors','Journal','Comment','Medline','Pubmed','Location','CRC'];
+				              fields python:[x for x in fields if refdict[x]];">
+                        <table class="listing" summary="References" style="width:100%">
+                            <tr><th colspan="2" tal:content="python:'Title: ' + title"  style="text-align:left" style="width:100%"/></tr>
 					<tal:refdields   tal:repeat="field fields">
 					<tr     tal:define="oddrow repeat/field/odd;"
 						tal:condition="python:field != 'Pubmed' and field != 'Location'"
@@ -133,11 +148,13 @@
 					</tal:refdields>
                                 </table>
 
-			</li>
+			</div>
                  </tal:reference>
-             </ul>
+            </tal:annotations>
         </dd>
     </dl>    
+    </metal:main-macro>
+
 </div>
 </body>
 </html>

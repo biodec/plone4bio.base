@@ -5,8 +5,10 @@ import sys
 import copy
 
 from zope.interface import implements
+from zope.component import adapts
 from zope.component.factory import Factory
 from zope.schema.fieldproperty import FieldProperty
+# from zope.index.text.interfaces import ISearchableText
 
 from plone.locking.interfaces import ITTWLockable
 # from plone.app.content.interfaces import INameFromTitle
@@ -42,7 +44,20 @@ class SeqRecordProxy(BioSeqRecord):
     implements(ISeqRecordProxy)
     def __init__(self, seq=None):
         super(SeqRecordProxy, self).__init__(seq)
-        
+
+"""
+class SeqRecordSearchableText(object):
+    adapts(ISeqRecord)
+    implements(ISearchableText)
+
+    def __init__(self, seqrecord):
+        self.seqrecord = seqrecord
+
+    def getSearchableText(self):
+        return u' '.join(
+            unicode(v) for v in self.seqrecord.dbxrefs)
+"""
+
 # TODO
 class SeqRecord(Item):
     #TODO: move to zcml ???
@@ -60,10 +75,15 @@ class SeqRecord(Item):
     features = [] # TODO
 
     def __init__(self, *args, **kwargs):
+        import pdb; pdb.set_trace()
         seqrecord = None
         if kwargs.has_key('seqrecord'):
             seqrecord = kwargs['seqrecord']
             del(kwargs['seqrecord'])
+        if kwargs.has_key('parent'):
+            parent = kwargs['parent']
+            del(kwargs['parent'])
+        kwargs['title'] = unicode(kwargs.get('title', ''))
         super(SeqRecord, self).__init__(*args, **kwargs)
         if seqrecord:
             self.sequence = unicode(seqrecord.seq.data)
@@ -72,7 +92,7 @@ class SeqRecord(Item):
 
     def Accession(self):
         return self.id
-    
+
     def Name(self):
         return self.title
 
@@ -81,7 +101,7 @@ class SeqRecord(Item):
             return self.annotations['gi']
         else:
             return None
-        
+
     @property
     def seqrecord(self):
         """
@@ -287,5 +307,5 @@ class SeqRecord(Item):
         else:
             return {}
     """
-    
+
 seqRecordFactory = Factory(SeqRecord, title=_(u"Create a new SeqRecord"))
