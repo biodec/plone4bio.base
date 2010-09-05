@@ -85,7 +85,7 @@ def seqrecordPNG(context, request):
         for f in seqrecord.features:
             f.type = f.type.replace(" ", "_")
             SeqIO.write([seqrecord, ], genbank, "genbank")
-            (stdoutdata, stderrdata) = graphics.communicate(genbank.getvalue())
+        (stdoutdata, stderrdata) = graphics.communicate(genbank.getvalue())
         return stdoutdata
 
 class PNGFeaturesView(BrowserPage):
