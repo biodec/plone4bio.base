@@ -7,7 +7,6 @@
     <five:registerPackage package="." initialize=".initialize" />
 
     <!-- Poke dependencies -->
-    <include package="plone.app.registry" />
     <include package="collective.js.jqueryui" />
 
     <!-- Include sub-packages -->

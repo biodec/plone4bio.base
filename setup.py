@@ -32,7 +32,6 @@ setup(name='plone4bio.base',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
-          'plone.app.registry',
           'collective.js.jqueryui',
           'numpy',
           'biopython',
