@@ -80,7 +80,6 @@ Run fake predictor over ferritin seqrecord:
     >>> print seqr_ann.features[0]
     type: fake
     location: [1:66]
-    ref: None:None
     strand: None
     qualifiers: 
 
