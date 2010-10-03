@@ -1,0 +1,8 @@
+<div class="row">
+  <tal:fields tal:repeat="widget context/subwidgets">
+      <div tal:attributes="class python:'fieldstyle-' + widget.name.split('.')[-1]">
+        <metal:block use-macro="context/@@widget_macros/widget_row" />
+      </div>
+  </tal:fields>
+</div>
+

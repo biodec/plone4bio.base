@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+    <adapter factory=".ControlPanelAdapter" />
+
+    <browser:page
+      name="plone4bio-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".Plone4BioControlPanel"
+      permission="cmf.ManagePortal"
+      allowed_attributes="template"
+      />
+
+</configure>

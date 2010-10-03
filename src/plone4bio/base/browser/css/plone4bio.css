@@ -1,5 +1,11 @@
 /* <dtml-with base_properties> */
 
+/* plone4bio-controlpanel */
+.fieldstyle-name { float: left; }
+.fieldstyle-pattern { float: left; }
+.fieldstyle-pattern input { width: 400px; }
+
+/* */
 span.T { color: #f7d565; }
 span.I { color: #61b5ce; }
 span.O { color: #61b5ce; }

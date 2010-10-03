@@ -7,6 +7,43 @@ from Products.GenericSetup.utils import _getDottedName
 from Products.CMFCore.utils import getToolByName
 
 from plone4bio.base.interfaces import IPredictorTool
+from plone4bio.base.interfaces import IDbxrefPatternsTool
+from plone4bio.base.tool.dbxref import DbxrefPattern
+
+
+class DbxrefPatternsToolXMLAdapter(XMLAdapterBase):
+    __used_for__ = IDbxrefPatternsTool
+    _LOGGER_ID = 'plone4bio_dbxrefpatterns'
+
+    def _exportNode(self):
+        """Export the object as a DOM node"""
+        root = self._doc.createElement('plone4bio')
+        child = self._doc.createElement('dbxrefpatterns')
+        for p in getattr(self.context, 'dbxrefs_patterns', []):            
+            node = self._doc.createElement('pattern')
+            node.setAttribute('name', p.name)
+            node.appendChild(self._doc.createTextNode(p.pattern))
+            child.appendChild(node)        
+        root.appendChild(child)
+        self._logger.info('Plone4Bio dbxref patterns tool exported.')
+        return root
+
+    def _importNode(self, node):
+        """Import the object from the DOM node"""
+        if self.environ.shouldPurge():
+            self.context.dbxref_patterns = []
+            self._logger.info('Plone4Bio dbxref patterns tool purged.')
+        # BBB: manage as dict
+        dbxref_patterns = {} 
+        for child in node.childNodes:
+            if child.nodeName == 'dbxrefpatterns':
+                for pnode in child.childNodes:
+                    if pnode.nodeName == 'pattern':
+                        dbxref_patterns[pnode.getAttribute('name')] = '\n'.join([n.toxml() for n in pnode.childNodes])
+        dbxref_patterns.update(dict([(p.name, p.pattern) 
+                for p in self.context.dbxref_patterns]))
+        self.context.dbxref_patterns = [DbxrefPattern(name, pattern) for (name, pattern) in dbxref_patterns.items()]
+        self._logger.info('Plone4Bio dbxref patterns tool imported.')
 
 class PredictorToolXMLAdapter(XMLAdapterBase):
     __used_for__ = IPredictorTool
@@ -67,26 +104,26 @@ class PredictorToolXMLAdapter(XMLAdapterBase):
         child.setAttribute('name', pred.name())
         return child
 
-def importPredictors(context):
+def importSettings(context):
     """Import tool settings from an XML file.
     """
     site = context.getSite()
     tool = getToolByName(site, 'plone4bio_predictors', None)
-    if tool is None:
-        logger = context.getLogger('plone4bio_predictors')
-        logger.info('Nothing to import.')
-        return
-    importObjects(tool, '', context)
+    if tool:
+        importObjects(tool, '', context)
+    tool = getToolByName(site, 'plone4bio_dbxrefpatterns', None)
+    if tool:
+        importObjects(tool, '', context)
 
-def exportPredictors(context):
+def exportSettings(context):
     """Export tool settings as an XML file.
     """
     site = context.getSite()
     tool = getToolByName(site, 'plone4bio_predictors', None)
-    if tool is None:
-        logger = context.getLogger('plone4bio_predictors')
-        logger.info('Nothing to export.')
-        return
-    exportObjects(tool, '', context)
+    if tool:
+        exportObjects(tool, '', context)
+    tool = getToolByName(site, 'plone4bio_dbxrefpatterns', None)
+    if tool:
+        exportObjects(tool, '', context)
 
 

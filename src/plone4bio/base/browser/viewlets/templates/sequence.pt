@@ -1,0 +1,32 @@
+<dt id="fieldsetlegend-sequence">Sequences</dt>
+<dd id="fieldset-sequence">
+    <table class="listing" summary="Sequence">
+        <tr class="odd">
+            <th>Main Sequence</th>
+            <td><code class="code" tal:content="view/sequence" /></td>
+        </tr>
+        <tr class="even">
+            <th>Length</th>
+            <td tal:content="view/sequenceLength" />
+        </tr>
+        <tr class="odd">
+            <th>Alphabet</th>
+            <td tal:content="view/alphabet" />
+        </tr>
+        <tr class="even" 
+                tal:define="seqstatistics context/SeqStatistics;"
+                tal:condition="python:seqstatistics and 'Composition' in seqstatistics">
+            <td tal:define="complabels seqstatistics/Composition">
+                <dl tal:attributes="id string:group-${complabels}" class="collapsible inline collapsedOnLoad">
+                    <dt class="collapsibleHeader" tal:content="string:Composition">Composition</dt>
+                    <dd class="collapsibleContent">
+                        <ul tal:repeat="complabel complabels">
+                            <li tal:content="python:seqstatistics['Composition'][complabel]" />
+                        </ul>
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+    </table>
+</dd>
+

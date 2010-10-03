@@ -61,44 +61,13 @@
     </ul>
 
     <dl class="enableFormTabbing">
+        <div tal:replace="structure provider:plone4bio.SeqRecordViewletManager" />
 		<dt id="fieldsetlegend-annotations" tal:condition="context/annotations">Annotations</dt>
         <dd id="fieldset-annotations" tal:condition="context/annotations" tal:content="structure here/@@annotations" />	     
         <dt id="fieldsetlegend-features" tal:condition="context/features">Features</dt>
         <dd id="fieldset-features" tal:condition="context/features" tal:content="structure here/@@features" />	     
         <dt id="fieldsetlegend-dbxrefs" tal:condition="context/dbxrefs">Dbxrefs</dt>
         <dd id="fieldset-dbxrefs" tal:condition="context/dbxrefs" tal:content="structure here/@@dbxrefs" />
-		<dt id="fieldsetlegend-sequence">Sequences</dt>
-        <dd id="fieldset-sequence">
-			<table class="listing" summary="Sequence"
-				tal:define="seqstatistics context/SeqStatistics;
-					  statistickeys python:seqstatistics.keys();">
-				<tr>
-					<th colspan="2">Statistics</th>
-					<th>Main Sequence</th>
-				</tr>
-				<tr class="odd">
-					<td>Length</td>
-					<td tal:content="context/sequence/__len__" />
-					<td rowspan="2"><code class="code" tal:content="view/Sequence" /></td>
-			</tr>
-			<tr tal:attributes="class python:'even';" tal:condition="python:seqstatistics.has_key('Composition')">
-				<td colspan="2" tal:define="complabels python:seqstatistics['Composition'].keys();
-							    labelsort python:complabels.sort();">
-						<dl tal:attributes="id string:group-${complabels}" class="collapsible inline collapsedOnLoad">
-		                                <dt class="collapsibleHeader" tal:content="string:Composition">Composition</dt>
-		                                <dd class="collapsibleContent">
-						<ul tal:repeat="complabel complabels">
-							<li><span tal:content="python:seqstatistics['Composition'][complabel]" /></li>
-		                                </ul>
-						</dd>
-		                                </dl>
-				</td>
-			</tr>
-			</table>
-
-
-		
-        </dd>
 	    <dt id="fieldsetlegend-references" tal:condition="context/annotations/references|nothing">References</dt>
         <dd id="fieldset-references"  tal:condition="context/annotations/references|nothing">
             <tal:annotations tal:define="annotations context/annotations;"

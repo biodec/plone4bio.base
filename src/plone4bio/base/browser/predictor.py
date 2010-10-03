@@ -13,7 +13,6 @@ from zope.viewlet.interfaces import IViewlet
 from plone.app.form import base
 
 from plone4bio.base import Plone4BioMessageFactory as _
-from plone4bio.base.browser.seqrecord import SeqRecordAddForm
 from plone4bio.base.content.seqrecord import SeqRecord
 from plone4bio.base.interfaces import ISeqRecord
 

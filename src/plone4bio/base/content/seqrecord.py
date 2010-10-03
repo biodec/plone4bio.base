@@ -1,4 +1,31 @@
-__author__ = '''Mauro Amico <m@biodec.com>'''
+# -*- coding: utf-8 -*-
+#
+# File: seqrecord.py
+#
+# Copyright (c) 2010 by Mauro Amico (Biodec Srl)
+#
+# GNU General Public License (GPL)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+# 02110-1301, USA.
+#
+# @version $Revision$:
+# @author  $Author$:
+# @date    $Date$:
+
+__author__ = '''Mauro Amico <mauro@biodec.com>'''
 __docformat__ = 'plaintext'
 
 import sys
@@ -15,9 +42,16 @@ from plone.locking.interfaces import ITTWLockable
 from plone.app.content.item import Item
 # from plone.memoize.instance import memoize
 
+from AccessControl import ClassSecurityInfo
+
 # from Products.CMFCore.WorkflowCore import WorkflowException
 # from Products.CMFCore.utils import getToolByName
 # from OFS.OrderSupport import OrderSupport
+
+from Products.ATContentTypes.content.base import ATCTContent
+from Products.ATContentTypes.content.schemata import ATContentTypeSchema
+
+from Products.Archetypes import atapi
 
 # biopython
 from Bio.Seq import Seq as BioSeq
@@ -25,69 +59,52 @@ from Bio.SeqRecord import SeqRecord as BioSeqRecord
 
 # plone4bio
 from plone4bio.base import Plone4BioMessageFactory as _
-from plone4bio.base.interfaces import ISeqRecord, ISeqRecordProxy, ISeqProxy
+from plone4bio.base.interfaces import ISeqRecord #, ISeqRecordProxy, ISeqProxy
 
 import logging
 logger = logging.getLogger('plone4bio')
 
-#TODO:
-class SeqProxy(BioSeq):
-    implements(ISeqProxy)
-    def _set_data(self, data):
-        self._data = data
-    data = property(fget=lambda self: unicode(self._data), fset=_set_data)        
-    def __init__(self, data=u''):
-        super(SeqProxy, self).__init__(data)
-    
-#TODO:
-class SeqRecordProxy(BioSeqRecord):
-    implements(ISeqRecordProxy)
-    def __init__(self, seq=None):
-        super(SeqRecordProxy, self).__init__(seq)
 
-"""
-class SeqRecordSearchableText(object):
-    adapts(ISeqRecord)
-    implements(ISearchableText)
+SeqRecordSchema = ATContentTypeSchema.copy() + atapi.Schema((
+    atapi.TextField("sequence",
+        required = True,
+        default_content_type = 'text/plain',
+        allowable_content_types = ('text/plain',),
+        widget = atapi.TextAreaWidget(
+            label = "sequence",
+            label_msgid = "sequence_label",
+            description = "Sequence",
+            description_msgid = "sequence_help",
+            i18n_domain = "plone4bio")
+    ),
+    atapi.StringField("alphabet",
+        required = True,
+        enforceVocabulary = True,
+        vocabulary = ["Bio.Alphabet.ProteinAlphabet",
+            "Bio.Alphabet.IUPAC.ExtendedIUPACProtein",
+            "Bio.Alphabet.IUPAC.IUPACProtein",
+        ],
+        widget = atapi.SelectionWidget(
+            label = "alphabet",
+            label_msgid = "alphabet_label",
+            description = "Alphabet",
+            description_msgid = "alphabet_help",
+            i18n_domain = "plone4bio")
+    ),
+    ))
 
-    def __init__(self, seqrecord):
-        self.seqrecord = seqrecord
-
-    def getSearchableText(self):
-        return u' '.join(
-            unicode(v) for v in self.seqrecord.dbxrefs)
-"""
-
-# TODO
-class SeqRecord(Item):
-    #TODO: move to zcml ???
-    implements(ISeqRecord, ITTWLockable) #, INameFromTitle)
+class SeqRecord(ATCTContent):
     portal_type='SeqRecord'
 
-    # seqrecord = FieldProperty(ISeqRecord['seqrecord'])
-    # title = SeqRecordProperty('name', u'')
-    title = FieldProperty(ISeqRecord['title'])
-    sequence = FieldProperty(ISeqRecord['sequence'])
-    alphabet = FieldProperty(ISeqRecord['alphabet'])
-    dbxrefs = FieldProperty(ISeqRecord['dbxrefs'])
-    # annotations = FieldProperty(ISeqRecord['annotations'])
-    annotations = {}
-    features = [] # TODO
+    implements(ISeqRecord)
 
-    def __init__(self, *args, **kwargs):
-        seqrecord = None
-        if kwargs.has_key('seqrecord'):
-            seqrecord = kwargs['seqrecord']
-            del(kwargs['seqrecord'])
-        if kwargs.has_key('parent'):
-            parent = kwargs['parent']
-            del(kwargs['parent'])
-        kwargs['title'] = unicode(kwargs.get('title', ''))
-        super(SeqRecord, self).__init__(*args, **kwargs)
-        if seqrecord:
-            self.sequence = unicode(seqrecord.seq.data)
-            self.alphabet = "%s.%s" % (seqrecord.seq.alphabet.__class__.__module__, seqrecord.seq.alphabet.__class__.__name__)
-            self.features = copy.deepcopy(seqrecord.features)
+    security = ClassSecurityInfo()
+    schema = SeqRecordSchema
+    _at_rename_after_creation = True
+
+    annotations = {} # TODO
+    features = [] # TODO
+    dbxrefs = [] # TODO
 
     def Accession(self):
         return self.id
@@ -101,8 +118,8 @@ class SeqRecord(Item):
         else:
             return None
 
-    @property
-    def seqrecord(self):
+    # override this function on different implementation (e.g. biosql)
+    def getSeqRecord(self):
         """
             id
             seq         - The sequence itself (Seq object)
@@ -122,9 +139,13 @@ class SeqRecord(Item):
                             description=self.Description())
         seqr.features = self.features
         return seqr
+    
+    @property
+    def seqrecord(self):
+        self.getSeqRecord()
 
     def alphabetClass(self):
-        alphabet = self.alphabet
+        alphabet = self.getAlphabet()
         __traceback_info__ = alphabet
         parts = alphabet.split( '.' )
         if not parts:
@@ -149,33 +170,8 @@ class SeqRecord(Item):
                 return None
         return obj
 
-    # override this function on different implementation (e.g. biosql)
-    def _getSeqRecord(self):
-        """ """
-        return self.seqrecord
-
-    """
-    @property
-    def title(self):
-        ## TODO: defire un criterio per generare un Title:
-        ## soluzione probabile e' utlizzare i campi accession
-        ## e name del seqrecord in cui poter mettere HGNC e/o
-        ## codice IPI
-        seqrecord =  self.__getSeqRecord__()
-        if seqrecord:
-            return seqrecord.name
-        else:
-            return u''
-    """
-    
-    """    
-    #TODO: ???    
-    def Title(self):
-        return self.title
-    """
-
     def Sequence(self):
-        return self.sequence
+        return self.getSequence()
         
     """
 
@@ -283,7 +279,7 @@ class SeqRecord(Item):
                            'ensembl_translated_protein',
                            'ncbi_cds_calculated_protein',
                            'ensembl_calculated_protein',
-                   'uniprot_sequence']
+                           'uniprot_sequence']
         annotation_sequences = {}
         for t in proteintags:
             if annotations.has_key(t):
@@ -306,4 +302,6 @@ class SeqRecord(Item):
             return {}
     """
 
-seqRecordFactory = Factory(SeqRecord, title=_(u"Create a new SeqRecord"))
+# seqRecordFactory = Factory(SeqRecord, title=_(u"Create a new SeqRecord"))
+
+atapi.registerType(SeqRecord, 'plone4bio.base')

@@ -10,18 +10,25 @@
            Products.GenericSetup.interfaces.ISetupEnviron"
       />
 
+  <adapter
+      factory=".exportimport.DbxrefPatternsToolXMLAdapter"
+      provides="Products.GenericSetup.interfaces.IBody"
+      for="..interfaces.IDbxrefPatternsTool
+           Products.GenericSetup.interfaces.ISetupEnviron"
+      />
+
     <gs:importStep
         name="plone4bio-settings-import"
         title="Plone4Bio Import"
         description=""
-        handler=".exportimport.importPredictors"
+        handler=".exportimport.importSettings"
     />
 
     <gs:exportStep
         name="plone4bio-settings-export"
         title="Plone4Bio Export"
         description=""
-        handler=".exportimport.exportPredictors"
+        handler=".exportimport.exportSettings"
     />
 
 </configure>

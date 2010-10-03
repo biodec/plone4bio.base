@@ -2,5 +2,7 @@
 <tool-setup>
  <required tool_id="plone4bio_predictors"
            class="plone4bio.base.tool.PredictorTool"/>
+ <required tool_id="plone4bio_dbxrefpatterns"
+           class="plone4bio.base.tool.DbxrefPatternsTool"/>
 </tool-setup>
 

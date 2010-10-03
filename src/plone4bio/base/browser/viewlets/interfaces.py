@@ -21,47 +21,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 #
-# @version $Revision$:
-# @author  $Author$:
-# @date    $Date$:
+# @version $Revision: $:
+# @author  $Author: $:
+# @date    $Date: $:
+
+__author__ = """Mauro Amico <mauro@biodec.com>"""
+__docformat__ = 'plaintext'
 
 from zope.interface import Interface
-from zope.schema import TextLine
+from zope.viewlet.interfaces import IViewletManager
 
-
-class ISeqRecord(Interface):
-    """ """
-
-
-class ISeqRecordUploader(Interface):
-    """ """
-    def loadData(self, data, data_type):
-        """ """
-
-
-class ISeqRecordContainer(Interface):
-    """ """
-
-
-class IPredictor(Interface):
-    """ """
-
-
-#TODO: remove
-class IPlone4BioConfiguration(Interface):
-    """ """
-
-
-class IPredictorTool(Interface):
-    """ """
-    
-    
-class IDbxrefPatternsTool(Interface):
-    """ """
-    
-class IDbxrefPattern(Interface):
-    """ """
-    name = TextLine(title=u"name")
-    pattern = TextLine(title=u"pattern")
-
+class ISeqRecordViewletManager(IViewletManager):
+    """  """
 

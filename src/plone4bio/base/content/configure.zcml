@@ -11,15 +11,6 @@
         addview="plone4bio.seqrecord"
       />
 
-    <utility
-        component=".seqrecord.seqRecordFactory"
-        name="plone4bio.base.SeqRecord"
-        />
-
-    <!--
-    <adapter factory=".seqrecord.SeqRecordSearchableText" />
-    -->
-
     <class class=".seqrecord.SeqRecord">
         <require
             permission="zope2.View"
@@ -30,12 +21,5 @@
             set_schema="..interfaces.ISeqRecord"
             />
     </class>
-
-    <!--
-    <five:implements
-      class=".seqrecord.SeqRecord"
-      interface="plone.app.content.interfaces.INameFromTitle"
-      />
-    -->
 
 </configure>

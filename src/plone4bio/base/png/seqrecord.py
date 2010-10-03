@@ -17,23 +17,22 @@ import logging
 logger = logging.getLogger('plone4bio.base')
 
 try:
-    from plone4bio.graphics.seqrecord import SeqRecordDrawer
-    has_plone4bio_graphics = True
+    from biograpy.seqrecord import SeqRecordDrawer
+    HAS_BIOGRAPY = True
 except ImportError:
-    logger.warning("missing plone4bio.graphics")
+    logger.warning("Missing biograpy. Use BioPerl")
     # BioPerl
     import subprocess
     import os
-    has_plone4bio_graphics = False
-
+    HAS_BIOGRAPY = False
 
 @adapter(ISeqRecord, IRequest)
 @implementer(IImagemapPresentation)
 def seqrecordImagemap(context, request):
     # FIXME: XXX
-    context.Description()
-    seqrecord = context.seqrecord
-    if has_plone4bio_graphics:
+    # context.Description()
+    seqrecord = context.getSeqRecord()
+    if HAS_BIOGRAPY:
         imagemap = """<map name="graphicsmap" id="graphicsmap">\n"""
         for box in SeqRecordDrawer(seqrecord, fig_width=1500).boxes():
             box['start'] = box['feature'].start
@@ -60,16 +59,20 @@ def seqrecordImagemap(context, request):
         for f in seqrecord.features:
             f.type = f.type.replace(" ", "_")
         SeqIO.write([seqrecord, ], genbank, "genbank")
-        (stdoutdata, stderrdata) = graphics.communicate(genbank.getvalue())
-        return stdoutdata
+        try:
+            (stdoutdata, stderrdata) = graphics.communicate(genbank.getvalue())
+            return stdoutdata
+        except:
+            logger.exception('error with bioperl')
+            return None
 
 @adapter(ISeqRecord, IRequest)
 @implementer(IPNGPresentation)
 def seqrecordPNG(context, request):
     # FIXME: XXX
-    context.Description()
-    seqrecord = context.seqrecord
-    if has_plone4bio_graphics:
+    # context.Description()
+    seqrecord = context.getSeqRecord()
+    if HAS_BIOGRAPY:
         imgdata=StringIO()
         SeqRecordDrawer(seqrecord, fig_width=1500).save(imgdata, format='PNG')
         return imgdata.getvalue()
@@ -79,14 +82,18 @@ def seqrecordPNG(context, request):
         # [{'chart':(line,bar,...),'data':[(x,y),(x,y),...}, ...]
         perlpath = os.sep.join((os.path.dirname(__file__), "perl"))
         cmd = ["perl", "-I"+ perlpath, os.sep.join((perlpath, "graphics-cmd.pl")), "-"]
-        graphics = subprocess.Popen(cmd, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
         genbank=StringIO()
         seqrecord.name = seqrecord.name[:16]
         for f in seqrecord.features:
             f.type = f.type.replace(" ", "_")
-            SeqIO.write([seqrecord, ], genbank, "genbank")
-        (stdoutdata, stderrdata) = graphics.communicate(genbank.getvalue())
-        return stdoutdata
+        SeqIO.write([seqrecord, ], genbank, "genbank")
+        graphics = subprocess.Popen(cmd, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
+        try:
+            (stdoutdata, stderrdata) = graphics.communicate(genbank.getvalue())
+            return stdoutdata
+        except:
+            logger.exception('error with bioperl')
+            return None
 
 class PNGFeaturesView(BrowserPage):
     def __call__(self):

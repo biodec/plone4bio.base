@@ -13,6 +13,7 @@ from plone4bio.base.content.seqrecord import SeqRecord
 from plone4bio.base.interfaces import IPredictor
 from plone4bio.base.interfaces import ISeqRecord
 
+
 def make_config_persistent(kwargs):
     """ iterates on the given dictionnary and replace list by persistent list,
     dictionary by persistent mapping.
@@ -25,6 +26,7 @@ def make_config_persistent(kwargs):
             p_value = PersistentList(value)
             kwargs[key] = p_value
 
+
 def make_config_nonpersistent(kwargs):
     """ iterates on the given dictionary and replace ListClass by python List,
         and DictClass by python Dict
@@ -36,6 +38,7 @@ def make_config_nonpersistent(kwargs):
         elif isinstance(value, PersistentList):
             p_value = list(value)
             kwargs[key] = p_value
+
 
 class Predictor(SimpleItem):
     """A predictor is an external method with
@@ -103,37 +106,38 @@ class Predictor(SimpleItem):
     def _load_predictor(self):
         klass = self.predictorclass()
         __traceback_info__ = klass
-        parts = klass.split( '.' )
+        parts = klass.split('.')
         if not parts:
             raise ValueError, "incomplete klass name: %s" % klass
         parts_copy = parts[:]
         while parts_copy:
             try:
-                module = __import__( '.'.join( parts_copy ) )
+                module = __import__('.'.join(parts_copy))
                 break
             except ImportError:
                 # Reraise if the import error was caused inside the imported file
-                if sys.exc_info()[2].tb_next is not None: raise
-                del parts_copy[ -1 ]
+                if sys.exc_info()[2].tb_next is not None:
+                    raise
+                del parts_copy[-1]
                 if not parts_copy:
                     return None
-        parts = parts[ 1: ] # Funky semantics of __import__'s return value
+        parts = parts[1:]  # Funky semantics of __import__'s return value
         obj = module
         for part in parts:
             try:
-                obj = getattr( obj, part )
+                obj = getattr(obj, part)
             except AttributeError:
                 return None
         self._v_predictor = obj()
 
-    def run(self, obj, context=None, store=False, argv=([],{})):
+    def run(self, obj, context=None, store=False, argv=([], {})):
         """ """
         assert type(argv[0]) == list
         assert type(argv[1]) == dict
         if not hasattr(self, '_v_predictor'):
             self._load_predictor()
         if ISeqRecord.providedBy(obj):
-            newseqr = self._v_predictor.run(obj.seqrecord, *argv[0], **argv[1])
+            newseqr = self._v_predictor.run(obj.getSeqRecord(), *argv[0], **argv[1])
             if store:
                 #TODO: need locking?
                 obj.features = newseqr.features

@@ -1,0 +1,24 @@
+<configure    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">  
+
+    <!-- viewletmanagers -->
+
+    <browser:viewletManager
+        name="plone4bio.SeqRecordViewletManager"
+        provides=".interfaces.ISeqRecordViewletManager"
+        class="plone.app.viewletmanager.manager.OrderedViewletManager"
+        permission="zope2.View"
+    />
+    
+    <!-- viewlets -->
+    
+    <browser:viewlet      
+         name="plone4bio.seqrecord.SequenceViewlet"      
+         for="plone4bio.base.interfaces.ISeqRecord"      
+         manager=".interfaces.ISeqRecordViewletManager"
+         template="templates/sequence.pt"     
+         class=".seqrecord.SequenceViewlet"      
+         permission="zope2.View"      
+    />
+    
+</configure>

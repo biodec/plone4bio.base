@@ -14,6 +14,7 @@
     <include package=".browser" />
     <include package=".png" />
     <include package=".tool" />
+    <include package=".controlpanel" />
 
     <class class="Products.ATContentTypes.content.folder.ATFolder">
         <implements interface=".interfaces.ISeqRecordContainer" />
@@ -27,7 +28,17 @@
         <implements interface=".interfaces.ISeqRecordContainer" />
     </class>
 
-    <adapter factory=".atct.UploadingFileFactory" />
+    <adapter
+        for="Products.ATContentTypes.interface.IATFolder"
+        provides=".interfaces.ISeqRecordUploader"
+        factory=".atct.UploadingFileFactory"
+      />
+
+    <adapter
+        for="Products.ATContentTypes.interfaces.folder.IATBTreeFolder"
+        provides=".interfaces.ISeqRecordUploader"
+        factory=".atct.UploadingFileFactory"
+      />
     
     <!-- Register GenericSetup profile used for installation -->
     <genericsetup:registerProfile

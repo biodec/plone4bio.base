@@ -1,12 +1,8 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser">
 
-<!--
-	<include package="plone4bio" file="permissions.zcml" />
--->
-
-<!-- new -->
-
+    <include package=".viewlets" />
+    
     <browser:page
 		for="..interfaces.ISeqRecord"
 		name="view"
@@ -38,13 +34,6 @@
 
     <browser:page
 		for="..interfaces.ISeqRecord"
-	        name="edit"
-		class=".seqrecord.SeqRecordEditForm"
-		permission="cmf.ModifyPortalContent"
-		/>
-
-    <browser:page
-		for="..interfaces.ISeqRecord"
 		name="predictors"
 		class=".seqrecord.SeqRecordPredictors"
 		template="templates/predictors.pt"
@@ -60,19 +49,17 @@
                 attribute="runPredictor"
 		/>
 
-	<!--  TODO:adapter -->
     <browser:page
 		for="..interfaces.ISeqRecord"
-	        name="gbk"
-		class=".seqrecord.SeqRecord2Genbank"
+	    name="gbk"
+		class=".genbank.SeqRecord2Genbank"
 		permission="zope2.View"
 		/>
 
-	<!--  TODO:adapter -->
      <browser:page
 		for="..interfaces.ISeqRecord"
 	    name="fasta"
-		class=".seqrecord.SeqRecord2Fasta"
+		class=".fasta.SeqRecord2Fasta"
 		permission="zope2.View"
 		/>
 
@@ -82,13 +69,6 @@
         template="templates/upload.pt"
         class=".container.LoadForm"
         permission="cmf.ModifyPortalContent"
-        />
-
-     <browser:page
-        for="zope.app.container.interfaces.IAdding"
-        name="plone4bio.base.SeqRecord"
-        class=".seqrecord.SeqRecordAddForm"
-        permission="cmf.AddPortalContent"
         />
 
   <browser:page
@@ -137,4 +117,10 @@
       permission="zope2.View"
       />
       
+    <browser:resource
+      name="plone4bio_icon.png"
+      file="images/plone4bio_icon.png"
+      permission="zope2.View"
+      />
+
 </configure>

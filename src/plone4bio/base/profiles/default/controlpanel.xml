@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        i18n:domain="plone"
+        name="portal_controlpanel">
+ <configlet title="Plone4Bio Configuration" action_id="plone4bio" appId="Plone"
+    category="Products" condition_expr=""
+    url_expr="string:${portal_url}/@@plone4bio-controlpanel" visible="True"
+    icon_expr="string:${portal_url}/++resource++plone4bio_icon.png"
+    i18n:attributes="title">
+  <permission>Manage portal</permission>
+ </configlet>
+</object>  

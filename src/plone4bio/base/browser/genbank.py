@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: atct.py
+# File: genbank.py
 #
 # Copyright (c) 2010 by Mauro Amico (Biodec Srl)
 #
@@ -25,30 +25,22 @@
 # @author  $Author$:
 # @date    $Date$:
 
-__author__ = '''Mauro Amico <mauro@biodec.com>'''
-__docformat__ = 'plaintext'
-
-from zope.interface import implements
+from Products.Five import BrowserView
+from StringIO import StringIO
 from Bio import SeqIO
-from plone4bio.base.interfaces import ISeqRecordUploader
 
 
-class UploadingFileFactory(object):
-    implements(ISeqRecordUploader)
-
-    DEFAULT_TYPE = 'genbank'
-
-    def __init__(self, context):
-        self.context = context
-
-    def loadData(self, data, data_type=DEFAULT_TYPE):
-        if data_type.lower() == 'genbank':
-            for seqr in SeqIO.parse(data, "genbank"):
-                newid = self.context.invokeFactory('SeqRecord', seqr.id, title=seqr.name)
-                obj = getattr(self.context, newid)
-                obj.sequence = seqr.seq.tostring()
-                obj.alphabet = str(seqr.seq.alphabet.__class__)
-                obj.features = seqr.features
-                obj.annotations = seqr.annotations
-        else:
-            raise
+class SeqRecord2Genbank(BrowserView):
+    """ """
+    def __call__(self):
+        io = StringIO()
+        # FIXME:
+        # self.context.Description()
+        seqrecord = self.context.getSeqRecord()
+        # the maximum length of locus name, for genbak format, is 16
+        seqrecord.name = seqrecord.name[:16]
+        # features
+        for f in seqrecord.features:
+            f.type = f.type.replace(" ", "_")
+        SeqIO.write([seqrecord, ], io, "genbank")
+        return io.getvalue()
