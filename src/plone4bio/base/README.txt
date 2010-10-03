@@ -31,10 +31,6 @@ Let us create some sequences.
     >>> self.portal.invokeFactory('SeqRecord', u'ferritin', title=u'Ferritin')
     'ferritin'
     >>> ferritin = getattr(self.portal, u'ferritin')
-
-The Sequence objects are simple Zope 3-like persistent content items, so we 
-will configure the project using theirs properties.
-
     >>> ferritin.descritpion = u"Ferritin sequence"
     >>> ferritin.sequence = u"CMSPDQWDKEAAQYDAHAQEFEKKSHRNNGTPEADQYRHMASQYQAMAQKLKAIANQLKKGSETCR"
     >>> ferritin.alphabet="Bio.Alphabet.ProteinAlphabet"
@@ -92,7 +88,7 @@ Now run the predictor over Plone4Bio's SeqRecord wrapper:
 
     >>> seqr_ann = pred_tool('FakePredictor', ferritin, store=False)
     >>> seqr_ann
-    <SeqRecord at >
+    <SeqRecord at ferritin>
     >>> seqr_ann.seqrecord
     SeqRecord(seq=Seq('CMSPDQWDKEAAQYDAHAQEFEKKSHRNNGTPEADQYRHMASQYQAMAQKLKAI...
     >>> len(seqr_ann.seqrecord.features)

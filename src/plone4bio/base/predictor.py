@@ -144,7 +144,7 @@ class Predictor(SimpleItem):
                 #TODO: raise event
                 return obj
             else:
-                return SeqRecord(title=newseqr.name, seqrecord=newseqr)
+                return SeqRecord(newseqr.id, title=newseqr.name, seqrecord=newseqr)
         else:
             newseqr = self._v_predictor.run(obj, *argv[0], **argv[1])
             if store:

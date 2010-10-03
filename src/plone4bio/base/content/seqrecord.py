@@ -105,6 +105,19 @@ class SeqRecord(ATCTContent):
     annotations = {} # TODO
     features = [] # TODO
     dbxrefs = [] # TODO
+    
+    def __init__(self, *args, **kw):
+        super(SeqRecord, self).__init__(*args, **kw)
+        if 'seqrecord' in kw:
+            seqr = kw['seqrecord']
+            self.setId(seqr.id)
+            self.setSequence(str(seqr.seq))
+            self.setAlphabet(str(seqr.seq.alphabet.__class__))
+            self.setTitle(seqr.name)
+            self.setDescription(seqr.description)
+            self.annotations = seqr.annotations
+            self.features = seqr.features
+            self.dbxrefs = seqr.dbxrefs
 
     def Accession(self):
         return self.id
@@ -142,7 +155,7 @@ class SeqRecord(ATCTContent):
     
     @property
     def seqrecord(self):
-        self.getSeqRecord()
+        return self.getSeqRecord()
 
     def alphabetClass(self):
         alphabet = self.getAlphabet()
