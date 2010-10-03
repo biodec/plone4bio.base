@@ -1,2 +1,3 @@
 recursive-include src *
+recursive-include docs *.txt
 global-exclude *.pyc *.pyo *.mo
