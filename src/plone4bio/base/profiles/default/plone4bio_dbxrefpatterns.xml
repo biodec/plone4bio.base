@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<plone4bio>
+    <dbxrefpatterns>
+        <pattern name="MIM">http://www.ncbi.nlm.nih.gov/entrez/dispomim.cgi?id=%s</pattern>
+        <pattern name="PANTHER">http://www.pantherdb.org/panther/family.do?clsAccession=%s</pattern>
+        <pattern name="Ensembl">http://www.ensembl.org/Homo_sapiens/Gene/Summary?g=%s</pattern>
+        <pattern name="Internal"></pattern>
+        <pattern name="RefSeq">http://www.ncbi.nlm.nih.gov/protein/%s</pattern>
+        <pattern name="KEGG">http://www.genome.jp/dbget-bin/www_bget?%s</pattern>
+        <pattern name="ENST">http://www.ensembl.org/Homo_sapiens/Transcript/Summary?t=%s</pattern>
+        <pattern name="ENSP">http://www.ensembl.org/Homo_sapiens/Transcript/ProteinSummary?p=%s</pattern>
+        <pattern name="Uniprot/SWISSPROT">http://www.uniprot.org/uniprot/%s</pattern>
+        <pattern name="ENSG">http://www.ensembl.org/Homo_sapiens/Gene/Summary?g=%s</pattern>
+        <pattern name="SMART">http://smart.embl-heidelberg.de/smart/do_annotation.pl?BLAST=DUMMY&amp;DOMAIN=%s</pattern>
+        <pattern name="Uniprot/Varsplic">http://www.uniprot.org/uniprot/%s</pattern>
+        <pattern name="PIR">http://pir.georgetown.edu/cgi-bin/textsearch.pl?submit.x=0&amp;submit.y=0&amp;field0=ALL&amp;search=1&amp;query0=%s</pattern>
+        <pattern name="protein_id">http://www.ncbi.nlm.nih.gov/protein/%s</pattern>
+        <pattern name="Pfam">http://pfam.sanger.ac.uk//family/%s</pattern>
+        <pattern name="PDBsum">http://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/pdbsum/GetPage.pl?template=main.html&amp;EBI=TRUE&amp;pdbcode=%s</pattern>
+        <pattern name="PRINTS">http://www.bioinf.manchester.ac.uk/cgi-bin/dbbrowser/sprint/searchprintss.cgi?display_opts=Prints&amp;category=None&amp;queryform=false&amp;prints_accn=%s</pattern>
+        <pattern name="MIM_GENE">http://www.ncbi.nlm.nih.gov/entrez/dispomim.cgi?id=%s</pattern>
+        <pattern name="RefSeq_dna">http://www.ncbi.nlm.nih.gov/nuccore/%s</pattern>
+        <pattern name="GermOnline">http://www.ensembl.org/Homo_sapiens/Gene/Summary?g=%s</pattern>
+        <pattern name="PeptideAtlas">https://db.systemsbiology.net/sbeams/cgi/PeptideAtlas/Search?action=GO&amp;build_type_name=Any&amp;all_fields=on&amp;search_key=%s</pattern>
+        <pattern name="GO">http://amigo.geneontology.org/cgi-bin/amigo/term-details.cgi?term=%s</pattern>
+        <pattern name="PDB">http://www.rcsb.org/pdb/explore/explore.do?structureId=%s</pattern>
+        <pattern name="GI">http://www.ncbi.nlm.nih.gov/protein/%s</pattern>
+        <pattern name="CDD">http://www.ncbi.nlm.nih.gov/sites/entrez/query.fcgi?db=cdd&amp;term=%s</pattern>
+        <pattern name="InterPro">http://www.ebi.ac.uk/interpro/ISearch?query=%s</pattern>
+        <pattern name="PharmGKB">http://www.pharmgkb.org/do/serve?objId=%s</pattern>
+        <pattern name="PIRSF">http://pir.georgetown.edu/cgi-bin/ipcSF?id=%s</pattern>
+        <pattern name="MEROPS">http://merops.sanger.ac.uk/cgi-bin/make_frame_file?id=%s</pattern>
+        <pattern name="RefSeq_peptide">http://www.ncbi.nlm.nih.gov/protein/%s</pattern>
+        <pattern name="EntrezGene">http://www.ncbi.nlm.nih.gov/sites/entrez?db=gene&amp;term=%s</pattern>
+        <pattern name="Uniprot/SPTREMBL">http://www.uniprot.org/uniprot/%s</pattern>
+        <pattern name="HGNC">http://www.genenames.org/data/hgnc_data.php?hgnc_id=%s</pattern>
+        <pattern name="IPI">http://srs.ebi.ac.uk/srsbin/cgi-bin/wgetz?-newId+[IPI-AllText:%s*]+-view+SwissEntry</pattern>
+        <pattern name="HGNC_ID">http://www.genenames.org/data/hgnc_data.php?hgnc_id=%s</pattern>
+        <pattern name="CCDS">http://www.ncbi.nlm.nih.gov/projects/CCDS/CcdsBrowse.cgi?REQUEST=ALLFIELDS&amp;DATA=%s</pattern>
+        <pattern name="UniSTS">http://www.ncbi.nlm.nih.gov/genome/sts/sts.cgi?uid=%s</pattern>
+        <pattern name="HPRD">http://www.hprd.org/resultsQuery?multiplefound=&amp;prot_name=&amp;external=Ref_seq&amp;accession_id=&amp;gene_symbol=&amp;chromo_locus=&amp;function=&amp;ptm_type=&amp;localization=&amp;domain=&amp;motif=&amp;expression=&amp;prot_start=&amp;prot_end=&amp;limit=0&amp;mole_start=&amp;mole_end=&amp;disease=&amp;query_submit=Search&amp;hprd=%s</pattern>
+        <pattern name="UCSC">http://genome.ucsc.edu/cgi-bin/hgGene?hgg_prot=Q9HAU5&amp;hgg_chrom=chr10&amp;hgg_start=12002026&amp;hgg_end=12124814&amp;hgg_type=knownGene&amp;db=hg18&amp;hgg_gene=%s</pattern>
+        <pattern name="MIM_MORBID">http://www.ncbi.nlm.nih.gov/entrez/dispomim.cgi?id=%s</pattern>
+        <pattern name="OTTHUMG">http://vega.sanger.ac.uk/Homo_sapiens/geneview?gene=%s</pattern>
+        <pattern name="EMBL">http://www.ebi.ac.uk/cgi-bin/sva/sva.pl/?search=Go!&amp;query=%s</pattern>
+        <pattern name="PUBMED">http://www.ncbi.nlm.nih.gov/sites/entrez/%s</pattern>
+        <pattern name="PROSITE">http://www.expasy.ch/prosite/%s</pattern>
+        <pattern name="UniGene">http://www.ncbi.nlm.nih.gov/UniGene/clust.cgi?ORG=%s&amp;CID=%s</pattern>
+        <pattern name="HGNC_NAME">http://www.genenames.org/data/hgnc_data.php?match=%s</pattern>
+        <pattern name="OTTP">http://vega.sanger.ac.uk/Homo_sapiens/protview?peptide=%s</pattern>
+        <pattern name="OTTT">http://vega.sanger.ac.uk/Homo_sapiens/transview?transcript=%s</pattern>
+        <pattern name="shares_CDS_with_OTTT">http://vega.sanger.ac.uk/Homo_sapiens/transview?transcript=%s</pattern>
+        <pattern name="GeneID">http://www.ncbi.nlm.nih.gov/sites/entrez?db=gene&amp;term=%s</pattern>
+    </dbxrefpatterns>
+</plone4bio>
