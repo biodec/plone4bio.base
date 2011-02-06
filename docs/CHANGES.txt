@@ -1,12 +1,10 @@
-======================
-plone4bio.base Changes
-======================
+Change Log
+==========
 
 plone4bio.base 1.1.0rc1 (2010-10-03)
-=================================
+------------------------------------
 
 Features
---------
 
 * works with Plone 4.x
 
@@ -19,10 +17,9 @@ Features
 * experimental support for genbank upload
 
 plone4bio.base 1.0.2 (2010-06-03)
-=================================
+---------------------------------
 
 Bug Fixes
----------
 
 * fix #8 "sequence feature diagram generator does not support feature types containing ' '"
 
@@ -30,10 +27,9 @@ Bug Fixes
 
 
 plone4bio.base 1.0.1 (2009-09-21)
-=================================
+---------------------------------
 
 Features
---------
 
 * features image via bioperl
 
@@ -44,6 +40,6 @@ Features
 * inital predictor functionalities
 
 plone4bio.base  (2008-01-31)
-=================================
+---------------------------------
 
 * First release (Mauro Amico)

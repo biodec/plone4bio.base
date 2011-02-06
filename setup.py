@@ -9,7 +9,7 @@ setup(name='plone4bio.base',
       long_description='\n'.join(
           open(os.path.join(*path)).read() for path in [
               ("src", "plone4bio", "base", "README.txt"),
-              ("docs", "CHANGES.txt"), ("docs", "TODO.txt")]),
+              ("docs", "CHANGES.txt"), ("docs", "AUTHORS.txt")]),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",

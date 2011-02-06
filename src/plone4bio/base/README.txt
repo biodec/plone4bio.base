@@ -103,8 +103,7 @@ Now run the predictor over Plone4Bio's SeqRecord wrapper:
 ...
 
 Developer Notes
----------------
-
+===============
 The *plone4bio* plone products are mainly developed on Debian Stable, so
 they are mainly tested in that environment. Usually there should be no
 problem in installing the products in other Zope/Plone environments.
@@ -113,9 +112,28 @@ This product is produced independently from the product Plone, and carries no
 guarantee from the Plone Foundation about quality, suitability or anything
 else. The supplier of this product assumes all responsibility for it.
 
-Maintainer
-----------
+Getting the source code
+-----------------------
 
-Mauro Amico (mauro AT biodec DOT com) is the active maintainer of the
-*plone4bio.base* framework.
+The source code is maintained in the Plone4Bio Subversion
+repository. To check out the trunk: ::
+
+  $ svn co http://plone4bio.org/svn/plone4bio.base/trunk/
+
+You can also browse the code online at
+`http://plone4bio.org/trac/browser/plone4bio.base/trunk
+<http://plone4bio.org/trac/browser/plone4bio.base/trunk>`_.
+
+When using setuptools or zc.buildout you can use the following
+URL to retrieve the latest development code as Python egg: ::
+
+  $ http://plone4bio.org/svn/plone4bio.base/trunk/#egg=plone4bio.base
+
+
+Bug tracker
+===========
+For bug reports, suggestions or questions please use the
+Launchpad bug tracker at
+`http://plone4bio.org
+<http://plone4bio.org>`_.
 
