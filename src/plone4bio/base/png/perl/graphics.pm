@@ -51,9 +51,35 @@ my %colors = (
       TIGRFAM => "palegoldenrod",
       TRANSIT => "gold",
       transit_peptide => "gold",
-      mat_peptide => "aquamarine", 
+      mat_peptide => "aquamarine",
       PIRSF => "chartreuse",
       proprotein => "crimson",
+      ACT_SITE => "red",
+      METAL => "gold",
+      MOTIF => "green",
+      PROPEP => "azure",
+      HELIX => "red",
+      MOD_RES => "darkolivegreen",
+      MUTAGEN => "deeppink",
+      CARBOHYD => "greenyellow",
+      SITE => "maroon",
+      STRAND => "gold",
+      TURN => "mediumslateblue",
+      BINDING => "slateblue",
+      gene => "red",
+      polyA_signal => "fuchsia",
+      repeat_region => "green",
+      ncRNA => "blueviolet",
+      rep_origin => "mediumspringgreen",
+      variation => "yellow",
+      alpha_helix => "red",
+      beta_strand => "yellow",
+      transmembrane_region => "crimson",
+      cytoplasmic_region => "mediumblue",
+      non_cytoplasmic_region => "lightskyblue",
+      coiled_coil => "olivedrab",
+      peptide_coil => "aliceblue",
+      signal_peptide => "gold",
 );
 
 my %bumps = (
@@ -75,6 +101,10 @@ my %bumps = (
       REPEAT => 1,
       TIGRFAM => 1,
       PIRSF => 1,
+      CDS => 1,
+      gene => 1,
+      polyA_signal => 1,
+      repeat_region => 1,
 );
 
 my %descriptions = (
@@ -92,12 +122,12 @@ my %descriptions = (
       Region => \&note_description,
       CDS => \&ft_gene_description,
       source => \&source_map_description,
-      VARIANT => \&description,     
+      VARIANT => \&description,
       CHAIN => \&description,
       Profile => \&hit_id_description,
-      Prosite_pattern => \&hit_id_description, 
-      PROSITE => \&hit_id_description, 
-      Prosite => \&hit_id_description, 
+      Prosite_pattern => \&hit_id_description,
+      PROSITE => \&hit_id_description,
+      Prosite => \&hit_id_description,
       COMPBIAS => \&description,
       CONFLICT => \&description,
       DNA_BIND => \&description,
@@ -111,6 +141,24 @@ my %descriptions = (
       mat_peptide => \&note_description,
       PIRSF => \&hit_id_description,
       proprotein => \&note_description,
+      ACT_SITE => \&description,
+      METAL => \&description,
+      MOTIF => \&description,
+      PROPEP => \&description,
+      HELIX => \&description,
+      MOD_RES => \&description,
+      MUTAGEN => \&description,
+      CARBOHYD => \&description,
+      SITE => \&description,
+      STRAND => \&description,
+      TURN => \&description,
+      BINDING =>  \&description,
+      gene => \&ft_gene_description,
+      polyA_signal => \&ft_note_gene,
+      repeat_region => \&ft_note_rpt_type,
+      ncRNA => \&ft_note_gene,
+      rep_origin => \&note_description,
+      variation => \&note_description,
 );
 
 my %glyphs = (
@@ -119,6 +167,14 @@ my %glyphs = (
       VARIANT => "pinsertion",
       CONFLICT => "pinsertion",
       VAR_SEQ => "pinsertion",
+      METAL => "pinsertion",
+      CARBOHYD => "pinsertion",
+      BINDING => "pinsertion",
+      CDS => "transcript2",
+      gene => "transcript2",
+      polyA_signal => "transcript2",
+      repeat_region => "anchored_arrow",
+      variation => "pinsertion",
 );
 
 sub printSeqRecord {
@@ -313,6 +369,23 @@ sub note_description {
   $note;
 }
 
+sub ft_note_gene {
+  my $feature = shift;
+  my @notes1;
+  my @notes2;
+  foreach (qw(note)) {
+    @notes1 = eval{$feature->get_tag_values($_)};
+    last;
+  }
+  foreach (qw(gene)) {
+    @notes2 = eval{$feature->get_tag_values($_)};
+    last;
+  }
+  my $note = $notes1[0] . $notes2[0];
+  return unless $note;
+  substr($note,120) = '...' if length $note > 120;
+  $note;
+}
 
 sub ft_gene_description {
  my $feature = shift;
@@ -351,6 +424,35 @@ sub source_map_description {
   my $note1 = '';
   my $note1 = 'chromosome_map: '.$notes1[0] if  length $notes1[0] > 1;
   my $note2 = $notes2[0];
+  my $note = $note1 . " " . $note2;
+  return unless $note;
+  substr($note,120) = '...' if length $note > 120;
+  $note;
+}
+
+sub ft_note_rpt_type {
+ my $feature = shift;
+  my @notes1;
+  my @notes2;
+  my @notes3;
+  foreach (qw(note)) {
+    @notes1 = eval{$feature->get_tag_values($_)};
+    last;
+  }
+  foreach (qw(experiment)) {
+    @notes2 = eval{$feature->get_tag_values($_)};
+    last;
+  }
+  foreach (qw(rpt_type)) {
+    @notes3 = eval{$feature->get_tag_values($_)};
+    last;
+  }
+  my $note1 = '';
+  my $note2 = '';
+  my $note3 = '';
+  my $note1 = 'note: '.$notes1[0] if  length $notes1[0] > 1;
+  my $note1 = 'note: '.$notes2[0] if  length $notes2[0] > 1;
+  my $note2 = 'rpt_type: '.$notes3[0] if  length $notes3[0] > 1;
   my $note = $note1 . " " . $note2;
   return unless $note;
   substr($note,120) = '...' if length $note > 120;
