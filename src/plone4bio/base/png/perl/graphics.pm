@@ -192,7 +192,9 @@ sub printSeqRecord {
     }
 
     # my %decription_glob;
-    my $pad_left = 100;
+    ### DON'T TOUCH THIS VALUE - IT WILL ALTER THE MAP-IMAGE ALIGNMEMT###
+    my $pad_left = 79;                                                ###
+    #####################################################################
     my $panel = Bio::Graphics::Panel->new(
                                      -length    => $seq->length,
 				      -key_style => 'left',
