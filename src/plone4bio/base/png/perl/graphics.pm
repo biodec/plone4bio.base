@@ -80,6 +80,8 @@ my %colors = (
       coiled_coil => "olivedrab",
       peptide_coil => "aliceblue",
       signal_peptide => "gold",
+      INIT_MET => "black",
+      REGION => "violet",
 );
 
 my %bumps = (
@@ -105,6 +107,9 @@ my %bumps = (
       gene => 1,
       polyA_signal => 1,
       repeat_region => 1,
+      HELIX => 1,
+      TURN => 1,
+      STRAND => 2,
 );
 
 my %descriptions = (
@@ -159,6 +164,8 @@ my %descriptions = (
       ncRNA => \&ft_note_gene,
       rep_origin => \&note_description,
       variation => \&note_description,
+      INIT_MET => \&description,
+      REGION => \&description,
 );
 
 my %glyphs = (
@@ -246,7 +253,9 @@ sub printSeqRecord {
 		    -font2color => 'grey',
 		    -key      => "${key}",
 		    -key_color => "red",
-		    -bump     => $bumps{$tag},
+		    -bump     =>  $bumps{$tag} || 5,
+		    -bump_limit => 3,
+                    -hbumppad => 5,
 		    -height   => 8,
 		    #-description    => \&gene_description,
 		    -description    => $descriptions{$tag},
@@ -283,6 +292,7 @@ sub printSeqRecord {
       # my ($name,$linkrule,$titlerule,$targetrule) = @_;
       my $name = 'graphicsmap';
       my $boxes    = $panel->boxes;
+      my $pad_left_correction = 21;
       # my (%track2link,%track2title,%track2target);
       my $map = qq(<map name="$name" id="$name">\n);
       foreach (@$boxes){
@@ -470,6 +480,12 @@ sub description {
   }
   return unless @notes;
   substr($notes[0],40) = '...' if length $notes[0] > 40;
+  #print STDERR $notes[0];
+  if ($notes[0] eq '_no_value') {
+	my $loc_start = $feature->start;
+        my $loc_end = $feature->end;
+	$notes[0] = "$loc_start-$loc_end" ;
+  }
   $notes[0];
 }
 
