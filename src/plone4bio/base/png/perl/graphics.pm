@@ -82,6 +82,7 @@ my %colors = (
       signal_peptide => "gold",
       INIT_MET => "black",
       REGION => "violet",
+      PEPTIDE => "orange",
 );
 
 my %bumps = (
@@ -166,6 +167,8 @@ my %descriptions = (
       variation => \&note_description,
       INIT_MET => \&description,
       REGION => \&description,
+      PEPTIDE => \&description,
+      DISULFID => \&description,
 );
 
 my %glyphs = (
@@ -200,11 +203,11 @@ sub printSeqRecord {
 
     # my %decription_glob;
     ### DON'T TOUCH THIS VALUE - IT WILL ALTER THE MAP-IMAGE ALIGNMEMT###
-    my $pad_left = 79;                                                ###
+    my $pad_left = 69;                                                ###
     #####################################################################
     my $panel = Bio::Graphics::Panel->new(
                                      -length    => $seq->length,
-				      -key_style => 'left',
+				      -key_style => 'right',
 				      -width     => 1000,
 				      -pad_left  => $pad_left,
 				      -pad_right  => 250,
@@ -302,8 +305,8 @@ sub printSeqRecord {
         my $tag = eval {$feature->method} || $feature->primary_tag;
         # my $description = $track->option('title');
         # my $description = $panel->make_title($feature);
-        $left += $pad_left;
-        $right += $pad_left;
+        #$left += $pad_left;
+        #$right += $pad_left;
         next unless $tag;
         $map .= qq(<area class="tips" shape="rect" coords="$left,$top,$right,$bottom" href="#" rel="#${tag}X${start}X${end}" title="$tag $start $end" alt="" />\n);
       }
