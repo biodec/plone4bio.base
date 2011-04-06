@@ -109,6 +109,10 @@ my %bumps = (
       polyA_signal => 1,
       repeat_region => 1,
       HELIX => 1,
+      alpha_helix => 1,
+      beta_strand => 1,
+      coiled_coil => 1,
+      peptide_coil => 1,
       TURN => 1,
       STRAND => 2,
 );
@@ -169,6 +173,10 @@ my %descriptions = (
       REGION => \&description,
       PEPTIDE => \&description,
       DISULFID => \&description,
+      alpha_helix => \&description,
+      beta_strand => \&description,
+      coiled_coil => \&description,
+      peptide_coil => \&description,
 );
 
 my %glyphs = (
