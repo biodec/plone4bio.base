@@ -33,8 +33,9 @@ setup(name='plone4bio.base',
           'setuptools',
           # -*- Extra requirements: -*-
           'collective.js.jqueryui',
-          'numpy',
-          'biopython',
+	  ##moved to the buildout eggs. 
+          #'numpy',
+          #'biopython',
       ],
       entry_points="""
       # -*- Entry points: -*-
