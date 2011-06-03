@@ -33,9 +33,8 @@ setup(name='plone4bio.base',
           'setuptools',
           # -*- Extra requirements: -*-
           'collective.js.jqueryui',
-          ## - removed for zc.buildout/jenkins problems
-          #'numpy',
-          #'biopython',
+          'numpy',
+          'biopython',
       ],
       entry_points="""
       # -*- Entry points: -*-
