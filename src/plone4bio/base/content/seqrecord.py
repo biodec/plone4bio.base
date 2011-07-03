@@ -91,6 +91,16 @@ SeqRecordSchema = ATContentTypeSchema.copy() + atapi.Schema((
             description_msgid = "alphabet_help",
             i18n_domain = "plone4bio")
     ),
+    # TODO: custom widget
+    atapi.StringField("dbxrefs",
+        required = False,
+        widget = atapi.LinesWidget(
+            label = "dbxrefs",
+            label_msgid = "dbxrefs_label",
+            description = "Database cross references",
+            description_msgid = "dbxrefs_help",
+            i18n_domain = "plone4bio")
+    ),
     ))
 
 class SeqRecord(ATCTContent):
@@ -104,7 +114,48 @@ class SeqRecord(ATCTContent):
 
     annotations = {} # TODO
     features = [] # TODO
-    dbxrefs = [] # TODO
+
+    # TODO: remove from here !!!!
+    def Sequences(self):
+        '''
+        It tries to manage the storage of multiple sequences inside
+        the seqrecord. It is able to manage 2 types of multiple sequence:
+         - based on annotation-key: if in annotation key there is a key
+           named multiple-sequences, and the key is a list of string, one for
+           each sequence, where each string is of the type "label:start:end".
+             - "label" that is the label of the sequence used also for 
+               the structure section (where the label is the chain)
+             - "start" and "end" that are respectively the start and end 
+               position of each sequence inside the global sequence.
+         - based on separator (a separator inside the sequence is used to
+           separate the different sequences). It will use one of these
+           three separators: "#", ",", ";"
+        It returns a list of tuple, where each tuple is a 'label' and
+        a seq object (Bio.Seq.Seq instance).
+        '''
+        ##start to split on multiple-sequence annotation key
+        seq = self.seqrecord.seq
+        seq_list = []
+        if self.annotations.has_key('multiple-sequences'):
+               for label_start_end in self.annotations['multiple-sequences']:
+                        label,start,end = label_start_end.split(':')
+                        subseq = BioSeq(seq.data[int(start):int(end)], alphabet = seq.alphabet)
+                        seq_list.append((label, subseq))
+        else:
+                listsep = ['#',',',';']
+                separator = ''
+                for sep in listsep:
+                        if seq.data.rfind(sep):  separator = sep
+                if separator:
+                        seqs = seq.data.split(separator)
+                        for seqdata in seqs:
+                                ## if separator is multiple... exclude '' objects
+                                if seqdata:
+                                      subseq = BioSeq(seqdata, alphabet = seq.alphabet)
+                                      seq_list.append(('',subseq))
+        ## if it didn't do any kind o split... return the whole seq
+        if not seq_list: seq_list.append(('',seq))
+        return seq_list
     
     def __init__(self, *args, **kw):
         super(SeqRecord, self).__init__(*args, **kw)

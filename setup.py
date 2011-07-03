@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.1.0rc1'
+version = '1.1.0rc2'
 
 setup(name='plone4bio.base',
       version=version,
@@ -39,5 +39,7 @@ setup(name='plone4bio.base',
       ],
       entry_points="""
       # -*- Entry points: -*-
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )
