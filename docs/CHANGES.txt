@@ -1,6 +1,15 @@
 Change Log
 ==========
 
+1.1.0rc2 (2012-01-10)
+---------------------
+
+Features
+
+* works with Plone 4.x
+
+* z3c.autoinclude
+
 plone4bio.base 1.1.0rc1 (2010-10-03)
 ------------------------------------
 
