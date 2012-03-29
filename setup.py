@@ -3,6 +3,11 @@ import os
 
 version = '1.1.0rc3.dev0'
 
+tests_require = [
+#  'plone.app.testing',
+  'Products.PloneTestCase',
+]
+
 setup(name='plone4bio.base',
       version=version,
       description="Plone4Bio base package",
@@ -29,6 +34,8 @@ setup(name='plone4bio.base',
       namespace_packages=['plone4bio'],
       include_package_data=True,
       zip_safe=False,
+      tests_require=tests_require,
+      extras_require=dict(tests=tests_require),
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
