@@ -29,24 +29,10 @@ __author__ = '''Mauro Amico <mauro@biodec.com>'''
 __docformat__ = 'plaintext'
 
 import sys
-import copy
 
 from zope.interface import implements
-from zope.component import adapts
-from zope.component.factory import Factory
-from zope.schema.fieldproperty import FieldProperty
-# from zope.index.text.interfaces import ISearchableText
-
-from plone.locking.interfaces import ITTWLockable
-# from plone.app.content.interfaces import INameFromTitle
-from plone.app.content.item import Item
-# from plone.memoize.instance import memoize
 
 from AccessControl import ClassSecurityInfo
-
-# from Products.CMFCore.WorkflowCore import WorkflowException
-# from Products.CMFCore.utils import getToolByName
-# from OFS.OrderSupport import OrderSupport
 
 from Products.ATContentTypes.content.base import ATCTContent
 from Products.ATContentTypes.content.schemata import ATContentTypeSchema
@@ -58,8 +44,8 @@ from Bio.Seq import Seq as BioSeq
 from Bio.SeqRecord import SeqRecord as BioSeqRecord
 
 # plone4bio
-from plone4bio.base import Plone4BioMessageFactory as _
-from plone4bio.base.interfaces import ISeqRecord #, ISeqRecordProxy, ISeqProxy
+# from plone4bio.base import Plone4BioMessageFactory as _
+from plone4bio.base.interfaces import ISeqRecord   #, ISeqRecordProxy, ISeqProxy
 
 import logging
 logger = logging.getLogger('plone4bio')
@@ -67,41 +53,42 @@ logger = logging.getLogger('plone4bio')
 
 SeqRecordSchema = ATContentTypeSchema.copy() + atapi.Schema((
     atapi.TextField("sequence",
-        required = True,
-        default_content_type = 'text/plain',
-        allowable_content_types = ('text/plain',),
-        widget = atapi.TextAreaWidget(
-            label = "sequence",
-            label_msgid = "sequence_label",
-            description = "Sequence",
-            description_msgid = "sequence_help",
-            i18n_domain = "plone4bio")
+        required=True,
+        default_content_type='text/plain',
+        allowable_content_types=('text/plain',),
+        widget=atapi.TextAreaWidget(
+            label="sequence",
+            label_msgid="sequence_label",
+            description="Sequence",
+            description_msgid="sequence_help",
+            i18n_domain="plone4bio")
     ),
     atapi.StringField("alphabet",
-        required = True,
-        enforceVocabulary = True,
-        vocabulary = ["Bio.Alphabet.ProteinAlphabet",
+        required=True,
+        enforceVocabulary=True,
+        vocabulary=["Bio.Alphabet.ProteinAlphabet",
             "Bio.Alphabet.IUPAC.ExtendedIUPACProtein",
             "Bio.Alphabet.IUPAC.IUPACProtein",
         ],
-        widget = atapi.SelectionWidget(
-            label = "alphabet",
-            label_msgid = "alphabet_label",
-            description = "Alphabet",
-            description_msgid = "alphabet_help",
-            i18n_domain = "plone4bio")
+        widget=atapi.SelectionWidget(
+            label="alphabet",
+            label_msgid="alphabet_label",
+            description="Alphabet",
+            description_msgid="alphabet_help",
+            i18n_domain="plone4bio")
     ),
     # TODO: custom widget
     atapi.StringField("dbxrefs",
-        required = False,
-        widget = atapi.LinesWidget(
-            label = "dbxrefs",
-            label_msgid = "dbxrefs_label",
-            description = "Database cross references",
-            description_msgid = "dbxrefs_help",
-            i18n_domain = "plone4bio")
+        required=False,
+        widget=atapi.LinesWidget(
+            label="dbxrefs",
+            label_msgid="dbxrefs_label",
+            description="Database cross references",
+            description_msgid="dbxrefs_help",
+            i18n_domain="plone4bio")
     ),
     ))
+
 
 class SeqRecord(ATCTContent):
     portal_type='SeqRecord'
@@ -112,8 +99,9 @@ class SeqRecord(ATCTContent):
     schema = SeqRecordSchema
     _at_rename_after_creation = True
 
-    annotations = {} # TODO
-    features = [] # TODO
+    # TODO:
+    annotations = {}
+    features = []
 
     # TODO: remove from here !!!!
     def Sequences(self):
@@ -123,9 +111,9 @@ class SeqRecord(ATCTContent):
          - based on annotation-key: if in annotation key there is a key
            named multiple-sequences, and the key is a list of string, one for
            each sequence, where each string is of the type "label:start:end".
-             - "label" that is the label of the sequence used also for 
+             - "label" that is the label of the sequence used also for
                the structure section (where the label is the chain)
-             - "start" and "end" that are respectively the start and end 
+             - "start" and "end" that are respectively the start and end
                position of each sequence inside the global sequence.
          - based on separator (a separator inside the sequence is used to
            separate the different sequences). It will use one of these
@@ -156,7 +144,7 @@ class SeqRecord(ATCTContent):
         ## if it didn't do any kind o split... return the whole seq
         if not seq_list: seq_list.append(('',seq))
         return seq_list
-    
+
     def __init__(self, *args, **kw):
         super(SeqRecord, self).__init__(*args, **kw)
         if 'seqrecord' in kw:
@@ -190,20 +178,20 @@ class SeqRecord(ATCTContent):
             Additional attributes:
             name        - Sequence name, e.g. gene name (string)
             description - Additional text (string)
-            dbxrefs     - List of database cross references (list of 
+            dbxrefs     - List of database cross references (list of
                           strings)
-            features    - Any (sub)features defined (list of 
+            features    - Any (sub)features defined (list of
                           SeqFeature objects)
-            annotations - Further information about the whole 
+            annotations - Further information about the whole
                           sequence (dictionary)
         """
-        seqr = BioSeqRecord(id=self.Accession(),  
+        seqr = BioSeqRecord(id=self.Accession(),
                             seq=BioSeq(self.Sequence(), self.alphabetClass()()),
-                            name=self.Name(), 
+                            name=self.Name(),
                             description=self.Description())
         seqr.features = self.features
         return seqr
-    
+
     @property
     def seqrecord(self):
         return self.getSeqRecord()
@@ -236,7 +224,7 @@ class SeqRecord(ATCTContent):
 
     def Sequence(self):
         return self.getSequence()
-        
+
     """
 
     def SeqId(self):
@@ -255,11 +243,11 @@ class SeqRecord(ATCTContent):
             return seqrecord.name
         else:
             return u''
-    
+
     def gi(self):
         return self.Id()
 
-    
+
     def features(self):
         seqrecord =  self.__getSeqRecord__()
         if seqrecord:
@@ -305,18 +293,18 @@ class SeqRecord(ATCTContent):
             if type.lower() == 'protein':
                 alphabet = 'ACDEFGHIKLMNPQRSTVWYBXZJUO'
             elif type.lower() in ('dna', 'rna', 'nucleotide'):
-                alphabet = 'CGATU' 
+                alphabet = 'CGATU'
         seq = self.Sequence()
         if not alphabet:
             if 'DNA' in str(seq.alphabet) or 'RNA' in str(seq.alphabet) or 'Nucleotide' in str(seq.alphabet):
                 alphabet = 'CGATU'
             elif 'Protein' in str(seq.alphabet):
-                alphabet = 'ACDEFGHIKLMNPQRSTVWYBXZJUO'     
+                alphabet = 'ACDEFGHIKLMNPQRSTVWYBXZJUO'
         seqstat = {}
-    
+
         ## Length
         seqstat['Length'] = len(seq.data)
-    
+
         ## Composition
         if alphabet:
             composition = {}
@@ -334,7 +322,7 @@ class SeqRecord(ATCTContent):
         dictionary. Return them as a dictionary. The dictionary keys
             are the annotation keys and their value are the sequences.
             The annotation tags that contains protein can be passed
-        as a list of tags. 
+        as a list of tags.
         """
         annotations = self.annotations()
         if not proteintags:
