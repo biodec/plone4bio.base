@@ -4,14 +4,12 @@ logger.debug('Start initialization of product.')
 
 from Products.CMFCore import utils as cmfutils
 
-from Products.CMFCore import DirectoryView
 from Products.Archetypes.atapi import process_types
 from Products.Archetypes import listTypes
 
 from config import PROJECTNAME
 from config import DEFAULT_ADD_CONTENT_PERMISSION
 from config import ADD_CONTENT_PERMISSIONS
-from config import product_globals
 
 from zope.i18nmessageid import MessageFactory
 Plone4BioMessageFactory = MessageFactory('plone4bio')
@@ -20,11 +18,9 @@ Plone4BioMessageFactory = MessageFactory('plone4bio')
 class Plone4BioException(Exception):
     pass
 
+
 def initialize(context):
     """Intializer called when used as a Zope 2 product."""
-    # imports packages and types for registration
-    import interfaces
-    import content
 
     # Initialize portal content
     all_content_types, all_constructors, all_ftis = process_types(
