@@ -78,6 +78,7 @@ Run fake predictor over ferritin seqrecord:
     location: [1:66]
     strand: None
     qualifiers: 
+    ...
 
 Original seqrecord must be untouched:
 
