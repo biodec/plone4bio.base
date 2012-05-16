@@ -34,11 +34,31 @@ Let us create some sequences.
     >>> ferritin.descritpion = u"Ferritin sequence"
     >>> ferritin.sequence = u"CMSPDQWDKEAAQYDAHAQEFEKKSHRNNGTPEADQYRHMASQYQAMAQKLKAIANQLKKGSETCR"
     >>> ferritin.alphabet="Bio.Alphabet.ProteinAlphabet"
+    >>> ferritin.annotations.update(dict(date='10-MAR-2010', data_file_division='PLN'))
 
 Now we can read some sequence properties:
 
     >>> ferritin.seqrecord
     SeqRecord(seq=Seq('CMSPDQWDKEAAQYDAHAQEFEKKSHRNNGTPEADQYRHMASQYQAMAQKLKAI...TCR', ProteinAlphabet()), id='ferritin', name=u'Ferritin', description='', dbxrefs=[])
+    
+Export genbank format:
+    
+    >>> print ferritin.restrictedTraverse('@@gbk')()
+    LOCUS       Ferritin                  66 aa                     PLN 10-MAR-2010
+    DEFINITION  
+    ACCESSION   ferritin
+    VERSION     ferritin
+    KEYWORDS    .
+    SOURCE      .
+      ORGANISM  .
+                .
+    FEATURES             Location/Qualifiers
+    ORIGIN
+            1 cmspdqwdke aaqydahaqe fekkshrnng tpeadqyrhm asqyqamaqk lkaianqlkk
+           61 gsetcr
+    //
+
+Prediction's stuff:
 
     >>> from Products.CMFCore.utils import getToolByName
     >>> pred_tool = getToolByName(self.portal, 'plone4bio_predictors')
@@ -76,9 +96,7 @@ Run fake predictor over ferritin seqrecord:
     >>> print seqr_ann.features[0]
     type: fake
     location: [1:66]
-    strand: None
     qualifiers: 
-    ...
 
 Original seqrecord must be untouched:
 

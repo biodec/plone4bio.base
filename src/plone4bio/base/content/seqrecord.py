@@ -190,6 +190,7 @@ class SeqRecord(ATCTContent):
                             name=self.Name(),
                             description=self.Description())
         seqr.features = self.features
+        seqr.annotations = self.annotations
         return seqr
 
     @property
