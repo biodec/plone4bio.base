@@ -29,6 +29,7 @@ __author__ = '''Mauro Amico <mauro@biodec.com>'''
 __docformat__ = 'plaintext'
 
 import sys
+import re
 
 from zope.interface import implements
 
@@ -196,6 +197,15 @@ class SeqRecord(ATCTContent):
     @property
     def seqrecord(self):
         return self.getSeqRecord()
+
+    #TODO: this is a hack
+    def setAlphabet(self, value):
+        """
+            "<class 'Bio.Alphabet.ProteinAlphabet'>" 
+                => "Bio.Alphabet.ProteinAlphabet"
+        """
+        value = re.sub('<class \'(.*)\'>', '\g<1>', value)
+        self.getField('alphabet').set(self, value)
 
     def alphabetClass(self):
         alphabet = self.getAlphabet()
